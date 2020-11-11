@@ -13,11 +13,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - FX
+  - Planets
+  - Players
+  - BGDrapery
+  - BG
   - 
   - 
   - 
@@ -40,4 +40,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: hand2
+    uniqueID: 3873601033
+    locked: 0
+  - name: balloon
+    uniqueID: 1232010367
+    locked: 0
+  - name: antenna
+    uniqueID: 3709189897
+    locked: 0
+  - name: body
+    uniqueID: 2580257773
+    locked: 0
+  - name: Head
+    uniqueID: 3460353133
+    locked: 0
+  - name: hand1
+    uniqueID: 209084121
     locked: 0
