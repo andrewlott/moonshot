@@ -8,23 +8,33 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject planetPrefab;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private int numPlanets = 3;
+    [SerializeField] private int numPlayers = 2;
     [SerializeField] private float minDistanceBetweenPlanets = 5.0f;
 
     private List<GameObject> planets;
-    private GameObject player;
+    private List<GameObject> players;
 
     private void Start() {
         planets = GenerateRandomPlanets(numPlanets);
-        player = GeneratePlayer();
+        players = GeneratePlayers(numPlayers);
     }
 
-    private GameObject GeneratePlayer() {
-        GameObject randomPlanet = planets[Mathf.FloorToInt(planets.Count * UnityEngine.Random.value)];
-        CircleCollider2D cc = randomPlanet.GetComponent<CircleCollider2D>();
+    private List<GameObject> GeneratePlayers(int numPlayers) {
+        planets.Shuffle(); // not great
+        List<GameObject> players = new List<GameObject>();
+        for (int i = 0; i < numPlayers; i++) {
+            GameObject player = GeneratePlayer(planets[i % numPlanets]);
+            player.GetComponent<Player>().playerId = i + 1;
+            players.Add(player);
+        }
+        return players;
+    }
 
+    private GameObject GeneratePlayer(GameObject nearPlanet) {
+        CircleCollider2D cc = nearPlanet.GetComponent<CircleCollider2D>();
         float randomAngle = Mathf.Deg2Rad * 360.0f * UnityEngine.Random.value;
 
-        Vector3 pos = new Vector3(
+        Vector3 pos = nearPlanet.transform.position + new Vector3(
             cc.radius * Mathf.Cos(randomAngle),
             cc.radius * Mathf.Sin(randomAngle),
             0.0f
@@ -63,7 +73,6 @@ public class GameManager : MonoBehaviour {
 
         GameObject planet = Instantiate(planetPrefab, randomPosition, Quaternion.identity);
         //planet.transform.localScale = Vector3.one * (0.5f + UnityEngine.Random.value * 1.0f);
-        MakeWrappingPlanets(planet);
         return planet;
     }
 
@@ -74,28 +83,5 @@ public class GameManager : MonoBehaviour {
             }
         }
         return true;
-    }
-
-    private void MakeWrappingPlanets(GameObject planet) {
-        Vector3 viewSize = Camera.main.ViewportToWorldPoint(Vector3.one) - Camera.main.ViewportToWorldPoint(Vector3.zero);
-        Vector3 mainPosition = planet.transform.position;
-        List<Vector3> positions = new List<Vector3>();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (i == j) {
-                    // Skip main planet
-                    continue;
-                }
-                positions.Add(new Vector3(
-                    mainPosition.x - viewSize.x + (i * viewSize.x),
-                    mainPosition.y - viewSize.y + (j * viewSize.y),
-                    0.0f
-                ));
-            }
-        }
-        foreach (Vector3 pos in positions) {
-            GameObject g = Instantiate(planetPrefab, pos, Quaternion.identity);
-            g.GetComponent<SpriteRenderer>().enabled = false;
-        }
     }
 }

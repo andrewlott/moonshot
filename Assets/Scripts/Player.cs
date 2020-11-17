@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+    [SerializeField] public int playerId;
     private Rigidbody2D rb;
     public float speed = 10.0f;
     private bool collided = false;
