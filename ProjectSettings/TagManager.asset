@@ -42,21 +42,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: hand2
+  - name: fx
     uniqueID: 3873601033
     locked: 0
-  - name: balloon
+  - name: player
     uniqueID: 1232010367
     locked: 0
-  - name: antenna
+  - name: balloon1
     uniqueID: 3709189897
     locked: 0
-  - name: body
+  - name: balloon2
     uniqueID: 2580257773
     locked: 0
-  - name: Head
+  - name: ballon3
     uniqueID: 3460353133
-    locked: 0
-  - name: hand1
-    uniqueID: 209084121
     locked: 0
