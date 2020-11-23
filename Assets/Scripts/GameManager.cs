@@ -8,44 +8,49 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject planetPrefab;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private int numPlanets = 3;
-    [SerializeField] private int numPlayers = 2;
+    [SerializeField] private int numPlayers = 1;
     [SerializeField] private float minDistanceBetweenPlanets = 5.0f;
 
-    private List<GameObject> planets;
-    private List<GameObject> players;
+    public List<GameObject> planets;
+    public List<GameObject> players = new List<GameObject>();
 
     private void Start() {
-        planets = GenerateRandomPlanets(numPlanets);
-        players = GeneratePlayers(numPlayers);
+        //planets = GenerateRandomPlanets(numPlanets);
+        //players = GeneratePlayers(numPlayers);
     }
 
-    private List<GameObject> GeneratePlayers(int numPlayers) {
+    public List<GameObject> GeneratePlayers() {
         planets.Shuffle(); // not great
-        List<GameObject> players = new List<GameObject>();
+        players = new List<GameObject>();
         for (int i = 0; i < numPlayers; i++) {
             GameObject player = GeneratePlayer(planets[i % numPlanets]);
             player.GetComponent<Player>().playerId = i + 1;
-            players.Add(player);
         }
         return players;
     }
 
-    private GameObject GeneratePlayer(GameObject nearPlanet) {
-        CircleCollider2D cc = nearPlanet.GetComponent<CircleCollider2D>();
+    public GameObject GeneratePlayer(GameObject nearPlanet) {
+        Vector3 pos = RandomPointOnPlanet(nearPlanet);
+        GameObject player = Instantiate(playerPrefab, pos, Quaternion.identity);
+        // Add to players
+        players.Add(player);
+        return player;
+    }
+
+    public Vector3 RandomPointOnPlanet(GameObject planet) {
+        CircleCollider2D cc = planet.GetComponent<CircleCollider2D>();
         float randomAngle = Mathf.Deg2Rad * 360.0f * UnityEngine.Random.value;
 
-        Vector3 pos = nearPlanet.transform.position + new Vector3(
+        Vector3 pos = planet.transform.position + new Vector3(
             cc.radius * Mathf.Cos(randomAngle),
             cc.radius * Mathf.Sin(randomAngle),
             0.0f
         );
-        GameObject player = Instantiate(playerPrefab, pos, Quaternion.identity);
-
-        return player;
+        return pos;
     }
 
-    private List<GameObject> GenerateRandomPlanets(int numPlanets) {
-        List<GameObject> planets = new List<GameObject>();
+    public List<GameObject> GenerateRandomPlanets() {
+        planets = new List<GameObject>();
         for (int i = 0; i < numPlanets; i++) {
             planets.Add(GenerateRandomPlanet(planets));
         }

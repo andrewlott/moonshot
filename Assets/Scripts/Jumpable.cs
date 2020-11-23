@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Jumpable : MonoBehaviour {
     [SerializeField] private Rigidbody2D forceTarget;
-    [SerializeField] private bool shouldJump;
-    [SerializeField] private bool shouldPush;
+    [SerializeField] public bool shouldJump;
+    [SerializeField] public bool shouldPush;
     private KeyCode jumpKey;
     private Collider2D collidedObject;
 

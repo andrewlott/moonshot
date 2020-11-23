@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class WrappablePlanet : MonoBehaviour {
     [SerializeField]
@@ -9,12 +10,14 @@ public class WrappablePlanet : MonoBehaviour {
     // How far out of bounds before teleporting
     private static float threshold = 0.25f;
     private static Vector3 viewSize;
-    private List<GameObject> wrappedPlanets;
+    public List<GameObject> wrappedPlanets;
 
     private void Start() {
         mainCamera = Camera.main;
         viewSize = mainCamera.ViewportToWorldPoint(Vector3.one) - Camera.main.ViewportToWorldPoint(Vector3.zero);
-        MakeWrappingPlanets(gameObject);
+        if (isEnabled) {
+            MakeWrappingPlanets(gameObject);
+        }
     }
 
     private void Update() {
@@ -67,14 +70,45 @@ public class WrappablePlanet : MonoBehaviour {
     }
 
     private void MakeWrappingPlanets(GameObject planet) {
+        GameManager gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         Vector3 mainPosition = planet.transform.position;
         List<Vector3> positions = GetWrapPlanetPositions(planet);
         wrappedPlanets = new List<GameObject>();
         foreach (Vector3 pos in positions) {
-            GameObject g = Instantiate(planet, pos, Quaternion.identity);
-            Destroy(g.GetComponent<WrappablePlanet>());
-            g.GetComponent<SpriteRenderer>().enabled = false;
+            GameObject g = new GameObject();
+            g.transform.SetParent(gm.transform);
+            g.transform.position = pos;
+            g.transform.localScale = planet.transform.localScale;
+
+            foreach (Rigidbody2D rb in planet.GetComponents<Rigidbody2D>()) {
+                g.AddComponent<Rigidbody2D>(rb);
+            }
+            foreach (CircleCollider2D c in planet.GetComponents<CircleCollider2D>()) {
+                g.AddComponent<CircleCollider2D>(c);
+            }
+            foreach (PointEffector2D pe in planet.GetComponents<PointEffector2D>()) {
+                g.AddComponent<PointEffector2D>(pe);
+            }
+            foreach (Rotator r in planet.GetComponents<Rotator>()) {
+                g.AddComponent<Rotator>(r);
+            }
+            //foreach(NetworkIdentity ni in planet.GetComponents<NetworkIdentity>()) {
+            //    g.AddComponent<NetworkIdentity>(ni);
+            //}
+            //foreach(NetworkTransform nt in planet.GetComponents<NetworkTransform>()) {
+            //    g.AddComponent<NetworkTransform>(nt);
+            //}
+            //Destroy(g.GetComponent<WrappablePlanet>());
+            //Destroy(g.GetComponent<NetworkIdentity>());
+            //Destroy(g.GetComponent<NetworkTransform>());
+            //g.GetComponent<SpriteRenderer>().enabled = false;
             wrappedPlanets.Add(g);
+        }
+    }
+
+    private void OnDestroy() {
+        foreach(GameObject wp in wrappedPlanets) {
+            Destroy(wp);
         }
     }
 }
