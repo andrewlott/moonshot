@@ -2712,7 +2712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnabled: 1
-  walkAmount: 22
+  walkAmount: 12
 --- !u!114 &888039845536438449
 MonoBehaviour:
   m_ObjectHideFlags: 0
