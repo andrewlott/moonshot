@@ -7,7 +7,7 @@ public class Wrappable : MonoBehaviour {
     private bool isEnabled;
     private Camera mainCamera;
     // How far out of bounds before teleporting
-    private static float threshold = 0.25f;
+    private static float threshold = 0.0f;
     private static Vector3 viewSize;
 
     private void Start() {

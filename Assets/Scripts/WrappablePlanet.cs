@@ -8,13 +8,11 @@ public class WrappablePlanet : MonoBehaviour {
     private bool isEnabled;
     private Camera mainCamera;
     // How far out of bounds before teleporting
-    private static float threshold = 0.25f;
-    private static Vector3 viewSize;
+    private static float threshold = 0.0f;
     public List<GameObject> wrappedPlanets;
 
     private void Start() {
         mainCamera = Camera.main;
-        viewSize = mainCamera.ViewportToWorldPoint(Vector3.one) - Camera.main.ViewportToWorldPoint(Vector3.zero);
         if (isEnabled) {
             MakeWrappingPlanets(gameObject);
         }
@@ -32,15 +30,15 @@ public class WrappablePlanet : MonoBehaviour {
         Vector3 viewPos = mainCamera.WorldToViewportPoint(transform.position);
         // X
         if (viewPos.x < 0.0f - threshold) {
-            transform.position = new Vector3(transform.position.x + viewSize.x, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x + Utils.ViewSize().x, transform.position.y, transform.position.z);
         } else if (viewPos.x > 1.0f + threshold) {
-            transform.position = new Vector3(transform.position.x - viewSize.x, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x - Utils.ViewSize().x, transform.position.y, transform.position.z);
         }
         // Y
         if (viewPos.y < 0.0f - threshold) {
-            transform.position = new Vector3(transform.position.x, transform.position.y + viewSize.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + Utils.ViewSize().y, transform.position.z);
         } else if (viewPos.y > 1.0f + threshold) {
-            transform.position = new Vector3(transform.position.x, transform.position.y - viewSize.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y - Utils.ViewSize().y, transform.position.z);
         }
 
         // Wrapped planets
@@ -60,8 +58,8 @@ public class WrappablePlanet : MonoBehaviour {
                     continue;
                 }
                 positions.Add(new Vector3(
-                    mainPosition.x - viewSize.x + (i * viewSize.x),
-                    mainPosition.y - viewSize.y + (j * viewSize.y),
+                    mainPosition.x - Utils.ViewSize().x + (i * Utils.ViewSize().x),
+                    mainPosition.y - Utils.ViewSize().y + (j * Utils.ViewSize().y),
                     0.0f
                 ));
             }

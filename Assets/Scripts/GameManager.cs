@@ -7,12 +7,16 @@ using Unity.Mathematics;
 public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject planetPrefab;
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject tokenPrefab;
     [SerializeField] private int numPlanets = 3;
     [SerializeField] private int numPlayers = 1;
     [SerializeField] private float minDistanceBetweenPlanets = 5.0f;
+    [SerializeField] private float minTokenDistance = 5.0f;
+    [SerializeField] private int numTokensPerPlanet = 4;
 
-    public List<GameObject> planets;
+    public List<GameObject> planets = new List<GameObject>();
     public List<GameObject> players = new List<GameObject>();
+    public List<GameObject> tokens = new List<GameObject>();
 
     private void Start() {
         //planets = GenerateRandomPlanets(numPlanets);
@@ -21,6 +25,7 @@ public class GameManager : MonoBehaviour {
 
     public List<GameObject> GeneratePlayers() {
         planets.Shuffle(); // not great
+        // TODO: If it's the bank of another player, then skip
         players = new List<GameObject>();
         for (int i = 0; i < numPlayers; i++) {
             GameObject player = GeneratePlayer(planets[i % numPlanets]);
@@ -39,14 +44,19 @@ public class GameManager : MonoBehaviour {
 
     public Vector3 RandomPointOnPlanet(GameObject planet) {
         CircleCollider2D cc = planet.GetComponent<CircleCollider2D>();
-        float randomAngle = Mathf.Deg2Rad * 360.0f * UnityEngine.Random.value;
+        Vector3 pos = RandomPositionFromPoint(planet.transform.position, cc.radius, cc.radius);
+        return pos;
+    }
 
-        Vector3 pos = planet.transform.position + new Vector3(
-            cc.radius * Mathf.Cos(randomAngle),
-            cc.radius * Mathf.Sin(randomAngle),
+    public Vector3 RandomPositionFromPoint(Vector3 center, float minDistance, float maxDistance) {
+        float randomAngle = Mathf.Deg2Rad * 360.0f * UnityEngine.Random.value;
+        float randomDistance = minDistance + (maxDistance - minDistance) * UnityEngine.Random.value;
+        Vector3 pos = center + new Vector3(
+            randomDistance * Mathf.Cos(randomAngle),
+            randomDistance * Mathf.Sin(randomAngle),
             0.0f
         );
-        return pos;
+        return ClampPositionInScreenBounds(pos);
     }
 
     public List<GameObject> GenerateRandomPlanets() {
@@ -61,19 +71,26 @@ public class GameManager : MonoBehaviour {
         // make sure planets are formed in bounds
         // make a clone with disabled renderer for each one
         Vector3 basePosition = Camera.main.ViewportToWorldPoint(Vector3.zero);
-        Vector3 viewSize = Camera.main.ViewportToWorldPoint(Vector3.one) - basePosition;
+        Vector3 viewSize = Utils.ViewSize();
             
         Vector3 randomPosition = new Vector3(
             basePosition.x + UnityEngine.Random.value * viewSize.x,
             basePosition.y + UnityEngine.Random.value * viewSize.y,
             0.0f
         );
-        while (!IsValidPlanetPosition(randomPosition, otherPlanets)) {
+        int attempts = 0;
+        int maxAttempts = 100;
+        while (!IsValidPlanetPosition(randomPosition, otherPlanets) && attempts < maxAttempts) {
             randomPosition = new Vector3(
                 basePosition.x + UnityEngine.Random.value * viewSize.x,
                 basePosition.y + UnityEngine.Random.value * viewSize.y,
                 0.0f
             );
+            attempts++;
+        }
+
+        if (attempts >= maxAttempts) {
+            Debug.Log("Unable to generate non-colliding planet");
         }
 
         GameObject planet = Instantiate(planetPrefab, randomPosition, Quaternion.identity);
@@ -82,11 +99,74 @@ public class GameManager : MonoBehaviour {
     }
 
     private bool IsValidPlanetPosition(Vector3 position, List<GameObject> otherPlanets) {
-        foreach(GameObject planet in otherPlanets) {
-            if (Vector3.Distance(planet.transform.position, position) < minDistanceBetweenPlanets) {
+        float epsilon = 0.5f;
+        return IsValidPosition(position, otherPlanets, minDistanceBetweenPlanets - epsilon);
+    }
+
+    public List<GameObject> GenerateTokens() {
+        tokens = new List<GameObject>();
+        foreach(GameObject planet in planets) {
+            CircleCollider2D cc = planet.GetComponent<CircleCollider2D>();
+
+            for (int i = 0; i < numTokensPerPlanet; i++) {
+                Vector3 position = RandomPositionFromPoint(
+                    planet.transform.position,
+                    cc.radius,
+                    minDistanceBetweenPlanets + cc.radius
+                );
+                int attempts = 0;
+                int maxAttempts = 100;
+                while (!IsValidPosition(position, tokens, 0.0f) && attempts < maxAttempts) {
+                    position = RandomPositionFromPoint(
+                        planet.transform.position,
+                        cc.radius,
+                        minDistanceBetweenPlanets + cc.radius
+                    );
+                    attempts++;
+                }
+                if (attempts >= maxAttempts) {
+                    Debug.Log("Unable to generate non-colliding token");
+                }
+                tokens.Add(GenerateToken(position));
+            }
+        }
+        return tokens;
+    }
+
+    private bool IsValidPosition(Vector3 position, List<GameObject> otherObjects, float minDistance) {
+        foreach (GameObject g in otherObjects) {
+            CircleCollider2D cc = g.GetComponent<CircleCollider2D>();
+            if (Vector3.Distance(g.transform.position, position) - 2 * cc.radius < minDistance) {
                 return false;
             }
         }
         return true;
+    }
+
+    public GameObject GenerateToken(Vector3 position) {
+        GameObject token = Instantiate(tokenPrefab, position, Quaternion.identity);
+        return token;
+    }
+
+    private Vector3 ClampPositionInScreenBounds(Vector3 mainPosition) {
+        Vector3 basePosition = Camera.main.ViewportToWorldPoint(Vector3.zero);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Vector3 newPosition = new Vector3(
+                    mainPosition.x - Utils.ViewSize().x + (i * Utils.ViewSize().x),
+                    mainPosition.y - Utils.ViewSize().y + (j * Utils.ViewSize().y),
+                    0.0f
+                );
+
+                if (basePosition.x < newPosition.x && basePosition.x + Utils.ViewSize().x > newPosition.x &&
+                    basePosition.y < newPosition.y && basePosition.y + Utils.ViewSize().y > newPosition.y
+                ) {
+                    return newPosition;
+                }
+            }
+        }
+
+        Debug.Log("Failed to clamp position");
+        return mainPosition;
     }
 }

@@ -17,6 +17,11 @@ public class MoonshotNetworkManager : NetworkManager {
                 //NetworkServer.Spawn(wp, conn);
             }
         }
+
+        gameManager.GenerateTokens();
+        foreach (GameObject token in gameManager.tokens) {
+            NetworkServer.Spawn(token);
+        }
     }
 
     public override void OnStopServer() {
@@ -27,7 +32,11 @@ public class MoonshotNetworkManager : NetworkManager {
             }
             Destroy(planet); // also destroys the wp
         }
-        foreach(GameObject player in gameManager.players) {
+        foreach (GameObject token in gameManager.tokens) {
+            NetworkServer.Destroy(token);
+            Destroy(token);
+        }
+        foreach (GameObject player in gameManager.players) {
             NetworkServer.Destroy(player);
             Destroy(player);
         }

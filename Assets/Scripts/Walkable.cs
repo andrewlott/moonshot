@@ -28,13 +28,11 @@ public class Walkable : MonoBehaviour {
 
         Vector3 normalDirection = (collidedObject.transform.position - transform.position).normalized;
         if (Input.GetKey(leftKey)) {
-            Debug.Log("walking left");
             Vector3 leftDirection = new Vector3(normalDirection.y, -normalDirection.x, 0);
             forceBody.AddForce(leftDirection * walkAmount, ForceMode2D.Force); // Automatically applies once per second?
         }
 
         if (Input.GetKey(rightKey)) {
-            Debug.Log("walking right");
             Vector3 rightDirection = new Vector3(-normalDirection.y, normalDirection.x, 0);
             forceBody.AddForce(rightDirection * walkAmount, ForceMode2D.Force); // Automatically applies once per second?
         }

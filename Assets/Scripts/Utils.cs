@@ -6,6 +6,15 @@ using System;
 using System.Linq;
 
 public static class Utils {
+
+    private static Vector3 _viewSize = Vector3.zero;
+    public static Vector3 ViewSize() {
+        if (_viewSize == Vector3.zero) {
+            _viewSize = Camera.main.ViewportToWorldPoint(Vector3.one) - Camera.main.ViewportToWorldPoint(Vector3.zero);
+        }
+        return _viewSize;
+    }
+
     public static void Shuffle<T>(this IList<T> list) {
         int n = list.Count;
         while (n > 1) {

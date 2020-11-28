@@ -789,80 +789,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &524965907
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338904, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4191698876244338907, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: m_Name
-      value: Planet
-      objectReference: {fileID: 0}
-    - target: {fileID: 7366411814829550610, guid: ff9bd51c16fd642429218e4565f05d74,
-        type: 3}
-      propertyPath: sceneId
-      value: 509755399
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ff9bd51c16fd642429218e4565f05d74, type: 3}
 --- !u!1 &532510988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1221,11 +1147,16 @@ MonoBehaviour:
     type: 3}
   playerPrefab: {fileID: 8447686377842428344, guid: af929e89d0ec94d39b07dbff21678982,
     type: 3}
+  tokenPrefab: {fileID: 9007483159279119889, guid: 07bcd30be7ef77245bf513bb85a0655a,
+    type: 3}
   numPlanets: 3
   numPlayers: 1
   minDistanceBetweenPlanets: 5
+  minTokenDistance: 5
+  numTokensPerPlanet: 2
   planets: []
   players: []
+  tokens: []
 --- !u!1 &1135199679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1775,7 +1706,7 @@ PrefabInstance:
     - target: {fileID: 4515490983217030636, guid: d264307128ad7f54a9ef1d5450dc9b0e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4515490983217030636, guid: d264307128ad7f54a9ef1d5450dc9b0e,
         type: 3}
@@ -3444,7 +3375,7 @@ PrefabInstance:
     - target: {fileID: 6582702720346126789, guid: efa522ca095b90846b53213acbce2270,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6582702720346126789, guid: efa522ca095b90846b53213acbce2270,
         type: 3}

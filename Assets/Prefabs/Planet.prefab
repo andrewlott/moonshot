@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: -8558577021017938700}
   - component: {fileID: 7042224201688387594}
   - component: {fileID: -3161270409699476891}
+  - component: {fileID: -3524571649161736733}
   m_Layer: 0
   m_Name: Planet
   m_TagString: Planet
@@ -177,7 +178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e25aa8d003754449bb139c86c30aa65c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 45
+  rotationSpeedMin: 10
+  rotationSpeedMax: 60
+  rotationSpeed: 0
   rotationAmount: {x: 0, y: 0, z: 0}
 --- !u!114 &-1290677733562284235
 MonoBehaviour:
@@ -278,3 +281,18 @@ MonoBehaviour:
   color: {r: 1, g: 1, b: 1, a: 1}
   spriteRenderers:
   - {fileID: 4191698876244338905}
+--- !u!114 &-3524571649161736733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4191698876244338907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75be869e726314175b39b68dafc23fbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 1
+  tokens: 0
+  banker: {fileID: 0}
