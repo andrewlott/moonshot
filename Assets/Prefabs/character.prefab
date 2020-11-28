@@ -2500,6 +2500,7 @@ GameObject:
   - component: {fileID: -1965148229622220152}
   - component: {fileID: -2361882622323577434}
   - component: {fileID: -183430101146590948}
+  - component: {fileID: 888039845536438449}
   m_Layer: 10
   m_Name: character
   m_TagString: Untagged
@@ -2710,6 +2711,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnabled: 1
   walkAmount: 22
+--- !u!114 &888039845536438449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447686377842428344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b267768bd538498486a3d2316033e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 0.2797885, b: 0, a: 1}
+  spriteRenderers:
+  - {fileID: 5339986198878924851}
 --- !u!1 &8500990779676135215
 GameObject:
   m_ObjectHideFlags: 0
@@ -2996,6 +3012,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 435361499642413038}
     m_Modifications:
+    - target: {fileID: -3652171189557867158, guid: 07bcd30be7ef77245bf513bb85a0655a,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7113332473126540213, guid: 07bcd30be7ef77245bf513bb85a0655a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3071,6 +3092,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 435361499642413038}
     m_Modifications:
+    - target: {fileID: -3652171189557867158, guid: 07bcd30be7ef77245bf513bb85a0655a,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1067018613477735680, guid: 07bcd30be7ef77245bf513bb85a0655a,
         type: 3}
       propertyPath: m_SortingLayerID
@@ -3176,6 +3202,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 435361499642413038}
     m_Modifications:
+    - target: {fileID: -3652171189557867158, guid: 07bcd30be7ef77245bf513bb85a0655a,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1067018613477735680, guid: 07bcd30be7ef77245bf513bb85a0655a,
         type: 3}
       propertyPath: m_SortingLayerID
