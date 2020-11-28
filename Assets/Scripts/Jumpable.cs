@@ -6,6 +6,7 @@ public class Jumpable : MonoBehaviour {
     [SerializeField] private Rigidbody2D forceTarget;
     [SerializeField] public bool shouldJump;
     [SerializeField] public bool shouldPush;
+    [SerializeField] public float jumpAmount = 18.0f;
     private KeyCode jumpKey;
     private Collider2D collidedObject;
 
@@ -23,8 +24,9 @@ public class Jumpable : MonoBehaviour {
 
         if (Input.GetKeyDown(jumpKey)) {
             if (shouldJump) {
-                Vector3 direction = transform.position - collidedObject.transform.position;
-                forceTarget.AddForce(direction * 10, ForceMode2D.Impulse);
+                Vector3 direction = (transform.position - collidedObject.transform.position).normalized;
+                forceTarget.velocity = Vector2.zero; // Cancel out walking force just in case, not sure it does anything
+                forceTarget.AddForce(direction * jumpAmount, ForceMode2D.Impulse);
             }
 
             if (shouldPush) {
@@ -48,17 +50,17 @@ public class Jumpable : MonoBehaviour {
 
     private KeyCode JumpKeyFromPlayerId(int playerId) {
         KeyCode key = KeyCode.Space;
-        switch(playerId) {
-            case 1:
-                key = KeyCode.Space;
-                break;
-            case 2:
-                key = KeyCode.A;
-                break;
-            case 3:
-                key = KeyCode.KeypadEnter;
-                break;
-        }
+        //switch(playerId) {
+        //    case 1:
+        //        key = KeyCode.Space;
+        //        break;
+        //    case 2:
+        //        key = KeyCode.A;
+        //        break;
+        //    case 3:
+        //        key = KeyCode.KeypadEnter;
+        //        break;
+        //}
         return key;
     }
 }
