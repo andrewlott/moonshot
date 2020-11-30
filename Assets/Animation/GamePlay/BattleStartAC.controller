@@ -9,7 +9,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: gameEnded
+    m_ConditionEvent: gameEnd
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2598399503143132359}
@@ -61,14 +61,14 @@ AnimatorController:
   m_Name: BattleStartAC
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: gameStarted
-    m_Type: 4
+  - m_Name: gameStart
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: gameEnded
-    m_Type: 4
+  - m_Name: gameEnd
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -95,7 +95,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: gameStarted
+    m_ConditionEvent: gameStart
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6625152479786264150}
