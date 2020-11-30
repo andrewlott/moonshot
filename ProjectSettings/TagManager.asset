@@ -46,9 +46,6 @@ TagManager:
   - name: fx
     uniqueID: 3873601033
     locked: 0
-  - name: player
-    uniqueID: 1232010367
-    locked: 0
   - name: balloon1
     uniqueID: 3709189897
     locked: 0
@@ -57,4 +54,7 @@ TagManager:
     locked: 0
   - name: ballon3
     uniqueID: 3460353133
+    locked: 0
+  - name: player
+    uniqueID: 1232010367
     locked: 0
