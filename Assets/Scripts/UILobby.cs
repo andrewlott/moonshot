@@ -18,6 +18,7 @@ public class UILobby : MonoBehaviour {
     [Header("Room")]
     [SerializeField] public GameObject planetPrefab;
     [SerializeField] public GameObject roomPlayerPrefab;
+    [SerializeField] public GameObject gameManagerPrefab;
     [SerializeField] private TMP_Text matchIdText;
     [SerializeField] private Button startButton;
     private void Start() {
@@ -27,6 +28,9 @@ public class UILobby : MonoBehaviour {
     }
 
     private void Update() {
+        if (GameManager.instance == null) {
+            return;
+        }
         bool canStart = GameManager.instance.CanStartGame();
         if (canStart && !startButton.enabled) {
             startButton.enabled = true;
@@ -49,6 +53,10 @@ public class UILobby : MonoBehaviour {
             roomCanvas.enabled = true;
             matchIdText.text = string.Format("Match ID: {0}", matchId);
             startButton.gameObject.SetActive(true);
+
+            //GameObject gm = Instantiate(gameManagerPrefab);
+            //gm.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
+            GameManager.instance.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
 
             SpawnPlanet(LobbyPlayer.localPlayer, matchId);
             SpawnRoomPlayer(LobbyPlayer.localPlayer, matchId);
@@ -73,6 +81,10 @@ public class UILobby : MonoBehaviour {
             roomCanvas.enabled = true;
             matchIdText.text = string.Format("Match ID: {0}", matchId);
             startButton.gameObject.SetActive(false);
+
+            //GameObject gm = Instantiate(gameManagerPrefab);
+            //gm.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
+            GameManager.instance.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
 
             SpawnRoomPlayer(LobbyPlayer.localPlayer, matchId);
         } else {

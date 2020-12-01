@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Collections;
 using Unity.Mathematics;
+using Mirror;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : NetworkBehaviour {
     [Header("Prefabs")]
     [SerializeField] private GameObject planetPrefab;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject tokenPrefab;
 
-    [Header("Game Objects")]
-    [SerializeField] private Animator anyKeyAnimator;
     [Header("Game Variables")]
     [SerializeField] private int numPlanets = 3;
     [SerializeField] private int numPlayers = 1;
@@ -21,30 +20,24 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private int minPlayersToStart = 2;
 
     [Header("State")]
-    public List<GameObject> planets = new List<GameObject>();
-    public List<GameObject> players = new List<GameObject>();
-    public List<GameObject> tokens = new List<GameObject>();
+    public SyncList<GameObject> planets = new SyncList<GameObject>();
+    public SyncList<GameObject> players = new SyncList<GameObject>();
+    public SyncList<GameObject> tokens = new SyncList<GameObject>();
 
     private bool gameStarted;
 
     public static GameManager instance;
 
-    private void Start() {
+    private void Awake() {
         instance = this;
         //planets = GenerateRandomPlanets(numPlanets);
         //players = GeneratePlayers(numPlayers);
     }
 
-    private void Update() {
-        if (Input.anyKeyDown && anyKeyAnimator != null) {
-            anyKeyAnimator.SetTrigger("anyKey");
-        }
-    }
-
-    public List<GameObject> GeneratePlayers() {
+    public SyncList<GameObject> GeneratePlayers() {
         planets.Shuffle(); // not great
         // TODO: If it's the bank of another player, then skip
-        players = new List<GameObject>();
+        players = new SyncList<GameObject>();
         for (int i = 0; i < numPlayers; i++) {
             GameObject player = GeneratePlayer(planets[i % numPlanets]);
             player.GetComponent<Player>().playerId = i + 1;
@@ -77,15 +70,15 @@ public class GameManager : MonoBehaviour {
         return ClampPositionInScreenBounds(pos);
     }
 
-    public List<GameObject> GenerateRandomPlanets() {
-        planets = new List<GameObject>();
+    public SyncList<GameObject> GenerateRandomPlanets() {
+        planets = new SyncList<GameObject>();
         for (int i = 0; i < numPlanets; i++) {
             planets.Add(GenerateRandomPlanet(planets));
         }
         return planets;
     }
 
-    private GameObject GenerateRandomPlanet(List<GameObject> otherPlanets) {
+    private GameObject GenerateRandomPlanet(SyncList<GameObject> otherPlanets) {
         // make sure planets are formed in bounds
         // make a clone with disabled renderer for each one
         Vector3 basePosition = Camera.main.ViewportToWorldPoint(Vector3.zero);
@@ -117,13 +110,13 @@ public class GameManager : MonoBehaviour {
         return planet;
     }
 
-    private bool IsValidPlanetPosition(Vector3 position, List<GameObject> otherPlanets) {
+    private bool IsValidPlanetPosition(Vector3 position, SyncList<GameObject> otherPlanets) {
         float epsilon = 0.5f;
         return IsValidPosition(position, otherPlanets, minDistanceBetweenPlanets - epsilon);
     }
 
-    public List<GameObject> GenerateTokens() {
-        tokens = new List<GameObject>();
+    public SyncList<GameObject> GenerateTokens() {
+        tokens = new SyncList<GameObject>();
         foreach(GameObject planet in planets) {
             CircleCollider2D cc = planet.GetComponent<CircleCollider2D>();
 
@@ -152,7 +145,7 @@ public class GameManager : MonoBehaviour {
         return tokens;
     }
 
-    private bool IsValidPosition(Vector3 position, List<GameObject> otherObjects, float minDistance) {
+    private bool IsValidPosition(Vector3 position, SyncList<GameObject> otherObjects, float minDistance) {
         foreach (GameObject g in otherObjects) {
             CircleCollider2D cc = g.GetComponent<CircleCollider2D>();
             if (Vector3.Distance(g.transform.position, position) - 2 * cc.radius < minDistance) {
@@ -204,5 +197,14 @@ public class GameManager : MonoBehaviour {
         }
 
         gameStarted = true;
+    }
+
+    public void SetLocalPlayerColor(Color targetColor) {
+        //Color targetColor = UnityEngine.Random.ColorHSV();
+        foreach(GameObject playerGameObject in players) {
+            if (playerGameObject.GetComponent<NetworkBehaviour>().isLocalPlayer) {
+                playerGameObject.GetComponent<Colorable>().color = targetColor;
+            }
+        }
     }
 }

@@ -1396,22 +1396,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e13c4728fe0504b0995ccda434c33f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   planetPrefab: {fileID: 4191698876244338907, guid: ff9bd51c16fd642429218e4565f05d74,
     type: 3}
   playerPrefab: {fileID: 8447686377842428344, guid: af929e89d0ec94d39b07dbff21678982,
     type: 3}
   tokenPrefab: {fileID: 9007483159279119889, guid: 07bcd30be7ef77245bf513bb85a0655a,
     type: 3}
-  anyKeyAnimator: {fileID: 0}
   numPlanets: 3
   numPlayers: 1
   minDistanceBetweenPlanets: 5
   minTokenDistance: 5
   numTokensPerPlanet: 2
   minPlayersToStart: 2
-  planets: []
-  players: []
-  tokens: []
 --- !u!1 &1135199679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,6 +1647,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7424768353213401068, guid: a9ae5174ef53340a79db2d2c3b978350,
+        type: 3}
+      propertyPath: sceneId
+      value: 728260347
       objectReference: {fileID: 0}
     - target: {fileID: 9086757023599335127, guid: a9ae5174ef53340a79db2d2c3b978350,
         type: 3}
@@ -5201,7 +5204,7 @@ PrefabInstance:
     - target: {fileID: 6641227221558084343, guid: 79a7e744a8d3b0c4d9659dd7a4402e92,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6641227221558084343, guid: 79a7e744a8d3b0c4d9659dd7a4402e92,
         type: 3}

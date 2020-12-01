@@ -76,6 +76,7 @@ public class LobbyPlayer : NetworkBehaviour {
     [Command]
     private void CmdSpawnPlanet(string _matchId) {
         GameObject planet = Instantiate(UILobby.instance.planetPrefab, GameManager.instance.transform);
+        GameManager.instance.planets.Add(planet);
         planet.GetComponent<WrappablePlanet>().isEnabled = false;
         planet.GetComponent<Bank>().isEnabled = false;
 
@@ -90,8 +91,8 @@ public class LobbyPlayer : NetworkBehaviour {
     [Command]
     private void CmdSpawnPlayer(string _matchId) {
         GameObject newRoomPlayer = Instantiate(UILobby.instance.roomPlayerPrefab, GameManager.instance.transform);
-
         newRoomPlayer.GetComponent<NetworkMatchChecker>().matchId = matchId.ToGuid();
+        GameManager.instance.players.Add(newRoomPlayer);
 
         NetworkServer.Spawn(newRoomPlayer, connectionToClient);
     }

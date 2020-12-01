@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5484308838716918080}
   - component: {fileID: 5484308838716918083}
   - component: {fileID: 5484308838716918082}
+  - component: {fileID: 7424768353213401068}
+  - component: {fileID: 4326233032489628883}
   m_Layer: 10
   m_Name: GameManager
   m_TagString: GameManager
@@ -44,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e13c4728fe0504b0995ccda434c33f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   planetPrefab: {fileID: 4191698876244338907, guid: ff9bd51c16fd642429218e4565f05d74,
     type: 3}
   playerPrefab: {fileID: 8447686377842428344, guid: af929e89d0ec94d39b07dbff21678982,
@@ -56,10 +60,7 @@ MonoBehaviour:
   minDistanceBetweenPlanets: 5
   minTokenDistance: 5
   numTokensPerPlanet: 2
-  minPlayersToStart: 2
-  planets: []
-  players: []
-  tokens: []
+  minPlayersToStart: 1
 --- !u!114 &5484308838716918082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,3 +73,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bed8885433bc547ca897cbeba214ef73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7424768353213401068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5484308838716918093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
+--- !u!114 &4326233032489628883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5484308838716918093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1020a74962faada4b807ac5dc053a4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  currentMatchDebug: 
