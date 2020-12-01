@@ -82,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 288b60a46d3862e4b99601f8357058a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -195,6 +195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aebe470ae5c7498aab85723a0a447f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isEnabled: 1
   wrappedPlanets: []
 --- !u!114 &7366411814829550610
@@ -279,7 +281,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b267768bd538498486a3d2316033e14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   color: {r: 1, g: 1, b: 1, a: 1}
+  colorChoices:
+  - {r: 1, g: 1, b: 1, a: 1}
   spriteRenderers:
   - {fileID: 4191698876244338905}
 --- !u!114 &-3524571649161736733
@@ -294,6 +300,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75be869e726314175b39b68dafc23fbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isEnabled: 1
   tokens: 0
   banker: {fileID: 0}
