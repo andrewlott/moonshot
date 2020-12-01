@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Collections;
 using Unity.Mathematics;
 using Mirror;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour {
     [Header("Prefabs")]
@@ -138,8 +139,8 @@ public class GameManager : NetworkBehaviour {
                     planet.GetComponent<Planet>().GetGravityDistance()
                 );
                 int attempts = 0;
-                int maxAttempts = 1000;
-                while (!IsValidPosition(position, tokens, 0.0f) && attempts < maxAttempts) {
+                int maxAttempts = 10000;
+                while (!IsValidPosition(position, planets, planet.GetComponent<Planet>().GetPlanetRadius()) && attempts < maxAttempts) {
                     position = RandomPositionFromPoint(
                         planet.transform.position,
                         planet.GetComponent<Planet>().GetPlanetRadius(),
@@ -204,6 +205,7 @@ public class GameManager : NetworkBehaviour {
         for (int i = 0; i < players.Count; i++) {
             GameObject player = players[i];
             player.transform.position = RandomPointOnPlanet(planets[i]);
+            player.GetComponent<Banker>().SetBank(planets[i].GetComponent<Bank>());
         }
 
         gameStarted = true;
@@ -240,5 +242,18 @@ public class GameManager : NetworkBehaviour {
     public void SetWalkScale(float walkScale) {
         Walkable walker = players[0].GetComponent<Walkable>();
         Walkable.walkAmount = walker.walkAmountMin + (walker.walkAmountMax - walker.walkAmountMin) * walkScale;
+    }
+
+    public void GoBackToLobby() {
+        foreach(GameObject g in planets) {
+            Destroy(g);
+        }
+        foreach(GameObject g in players) {
+            Destroy(g);
+        }
+        foreach(GameObject g in tokens) {
+            Destroy(g);
+        }
+        SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
     }
 }

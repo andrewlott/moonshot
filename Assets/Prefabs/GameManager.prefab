@@ -58,7 +58,7 @@ MonoBehaviour:
   numPlayers: 1
   minDistanceBetweenPlanets: 4
   minTokenDistance: 5
-  numTokensPerPlanet: 2
+  numTokensPerPlanet: 4
   minPlayersToStart: 1
   maxLocalPlayers: 3
 --- !u!114 &5484308838716918082
