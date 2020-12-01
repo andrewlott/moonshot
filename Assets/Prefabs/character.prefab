@@ -3080,7 +3080,6 @@ MonoBehaviour:
   syncInterval: 0.1
   color: {r: 1, g: 0.2797885, b: 0, a: 1}
   colorChoices:
-  - {r: 1, g: 1, b: 1, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 1, g: 0.5529412, b: 0.87843144, a: 1}
   - {r: 0.7568628, g: 0, b: 1, a: 1}
