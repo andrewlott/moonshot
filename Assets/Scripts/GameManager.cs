@@ -85,18 +85,26 @@ public class GameManager : NetworkBehaviour {
         // make a clone with disabled renderer for each one
         Vector3 basePosition = Camera.main.ViewportToWorldPoint(Vector3.zero);
         Vector3 viewSize = Utils.ViewSize();
-            
+
+        int sign = 0;
+        if (otherPlanets.Count > 0) {
+            sign = otherPlanets.Count % 2 == 0 ? -1 : 1;
+        }
+        float posX = viewSize.x / 2.0f + sign * viewSize.x / (numPlanets);
+        //float posX = (1 + otherPlanets.Count) * viewSize.x / (numPlanets + 1);
+        float posY = UnityEngine.Random.Range(1, 3) * viewSize.y / 3;
         Vector3 randomPosition = new Vector3(
-            basePosition.x + UnityEngine.Random.value * viewSize.x,
-            basePosition.y + UnityEngine.Random.value * viewSize.y,
+            basePosition.x + posX,
+            basePosition.y + posY,
             0.0f
         );
         int attempts = 0;
         int maxAttempts = 1000;
         while (!IsValidPlanetPosition(randomPosition, otherPlanets) && attempts < maxAttempts) {
+            posY = UnityEngine.Random.Range(1, 3) * viewSize.y / 3;
             randomPosition = new Vector3(
-                basePosition.x + UnityEngine.Random.value * viewSize.x,
-                basePosition.y + UnityEngine.Random.value * viewSize.y,
+                basePosition.x + posX,
+                basePosition.y + posY,
                 0.0f
             );
             attempts++;
@@ -113,28 +121,29 @@ public class GameManager : NetworkBehaviour {
     }
 
     private bool IsValidPlanetPosition(Vector3 position, SyncList<GameObject> otherPlanets) {
+        if (otherPlanets.Count == 0) {
+            return true;
+        }
         float epsilon = 0.5f;
-        return IsValidPosition(position, otherPlanets, minDistanceBetweenPlanets + epsilon);
+        return IsValidPosition(position, otherPlanets, 2 * planets[0].GetComponent<Planet>().GetGravityDistance() + epsilon);
     }
 
     public SyncList<GameObject> GenerateTokens() {
         tokens = new SyncList<GameObject>();
         foreach(GameObject planet in planets) {
-            CircleCollider2D cc = planet.GetComponent<CircleCollider2D>();
-            float dist = cc.radius * planet.transform.localScale.x;
             for (int i = 0; i < numTokensPerPlanet; i++) {
                 Vector3 position = RandomPositionFromPoint(
                     planet.transform.position,
-                    dist,
-                    minDistanceBetweenPlanets
+                    planet.GetComponent<Planet>().GetPlanetRadius(),
+                    planet.GetComponent<Planet>().GetGravityDistance()
                 );
                 int attempts = 0;
                 int maxAttempts = 1000;
                 while (!IsValidPosition(position, tokens, 0.0f) && attempts < maxAttempts) {
                     position = RandomPositionFromPoint(
                         planet.transform.position,
-                        dist,
-                        minDistanceBetweenPlanets
+                        planet.GetComponent<Planet>().GetPlanetRadius(),
+                        planet.GetComponent<Planet>().GetGravityDistance()
                     );
                     attempts++;
                 }
@@ -149,9 +158,7 @@ public class GameManager : NetworkBehaviour {
 
     private bool IsValidPosition(Vector3 position, SyncList<GameObject> otherObjects, float minDistance) {
         foreach (GameObject g in otherObjects) {
-            CircleCollider2D cc = g.GetComponent<CircleCollider2D>();
-            float dist = Vector3.Distance(g.transform.position, position) - 2 * cc.radius * cc.gameObject.transform.localScale.x;
-            if (dist < minDistance) {
+            if (Vector3.Distance(g.transform.position, position) < minDistance) {
                 return false;
             }
         }

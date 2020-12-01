@@ -8,7 +8,7 @@ public class Player : MonoBehaviour {
     private float speed = 15.0f;
     private bool collided = false;
     private Animator animator;
-    void Start() {
+    void Awake() {
         rb = this.GetComponent<Rigidbody2D>();
         animator = this.GetComponent<Animator>();
     }

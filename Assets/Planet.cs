@@ -10,4 +10,21 @@ public class Planet : MonoBehaviour {
     public void SetGravity(float amount) {
         gravityPointEffector.forceMagnitude = amount;
     }
+
+    public float GetPlanetRadius() {
+        return GetCollider(false).radius * transform.localScale.x;
+    }
+
+    public float GetGravityDistance() {
+        return GetCollider(true).radius * transform.localScale.x;
+    }
+
+    private CircleCollider2D GetCollider(bool isEffector) {
+        foreach(CircleCollider2D c in GetComponents<CircleCollider2D>()) {
+            if (c.usedByEffector == isEffector) {
+                return c;
+            }
+        }
+        return null;
+    }
 }
