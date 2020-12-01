@@ -17,7 +17,9 @@ public class Colorable : NetworkBehaviour {
             while (usedPlayerColors.Contains(choice)) {
                 choice = colorChoices[Random.Range(0, colorChoices.Count - 1)];
             }
+
             color = choice;
+            usedPlayerColors.Add(choice);
         }
         SetSpriteColor();
     }

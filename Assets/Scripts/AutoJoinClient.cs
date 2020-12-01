@@ -25,6 +25,8 @@ public class AutoJoinClient : MonoBehaviour {
     }
 
     public void JoinServer() {
+        CreateLocal();
+        return;
         Debug.Log("Joining");
         PlayerPrefs.SetInt("isLocal", 0);
         networkManager.networkAddress = serverAddress;

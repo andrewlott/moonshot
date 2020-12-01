@@ -52,33 +52,33 @@ public class Walkable : MonoBehaviour {
 
     private KeyCode LeftKeyFromPlayerId(int playerId) {
         KeyCode key = KeyCode.LeftArrow;
-        //switch(playerId) {
-        //    case 1:
-        //        key = KeyCode.Space;
-        //        break;
-        //    case 2:
-        //        key = KeyCode.A;
-        //        break;
-        //    case 3:
-        //        key = KeyCode.KeypadEnter;
-        //        break;
-        //}
+        switch (playerId) {
+            case 1:
+                key = KeyCode.LeftArrow;
+                break;
+            case 2:
+                key = KeyCode.A;
+                break;
+            case 3:
+                key = KeyCode.B;
+                break;
+        }
         return key;
     }
 
     private KeyCode RightKeyFromPlayerId(int playerId) {
         KeyCode key = KeyCode.RightArrow;
-        //switch(playerId) {
-        //    case 1:
-        //        key = KeyCode.Space;
-        //        break;
-        //    case 2:
-        //        key = KeyCode.A;
-        //        break;
-        //    case 3:
-        //        key = KeyCode.KeypadEnter;
-        //        break;
-        //}
+        switch (playerId) {
+            case 1:
+                key = KeyCode.RightArrow;
+                break;
+            case 2:
+                key = KeyCode.D;
+                break;
+            case 3:
+                key = KeyCode.N;
+                break;
+        }
         return key;
     }
 }
