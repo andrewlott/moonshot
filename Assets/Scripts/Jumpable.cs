@@ -91,7 +91,7 @@ public class Jumpable : MonoBehaviour {
                 key = KeyCode.S;
                 break;
             case 3:
-                key = KeyCode.C;
+                key = KeyCode.V;
                 break;
         }
         return key;
