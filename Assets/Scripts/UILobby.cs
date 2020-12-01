@@ -22,6 +22,7 @@ public class UILobby : MonoBehaviour {
     [SerializeField] private TMP_Text matchIdText;
     [SerializeField] private Button startButton;
     [SerializeField] private Animator uiAnimator;
+    [SerializeField] private Text timeText;
 
     private bool isLocal;
 
@@ -41,6 +42,7 @@ public class UILobby : MonoBehaviour {
             roomCanvas.enabled = false;
             uiAnimator.SetTrigger("isOnline");
         }
+        timeText.text = string.Format("TIME {0}:{1}", GameManager.instance.gameDurationSeconds / 60, (GameManager.instance.gameDurationSeconds % 60).ToString("d2"));
     }
 
     private void Update() {
