@@ -42,6 +42,7 @@ public class UILobby : MonoBehaviour {
             roomCanvas.enabled = false;
             uiAnimator.SetTrigger("isOnline");
         }
+
         timeText.text = string.Format("TIME {0}:{1}", GameManager.instance.gameDurationSeconds / 60, (GameManager.instance.gameDurationSeconds % 60).ToString("d2"));
     }
 
@@ -171,6 +172,8 @@ public class UILobby : MonoBehaviour {
 
     private void CreateLocalLobby() {
         Debug.Log("Creating local lobby");
+        Debug.Log("OOOF");
+        GameManager.instance.Test();
         GameObject planet = Instantiate(planetPrefab, GameManager.instance.transform);
         GameManager.instance.planets.Add(planet);
         //planet.GetComponent<WrappablePlanet>().isEnabled = false;

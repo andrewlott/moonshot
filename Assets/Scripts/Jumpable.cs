@@ -11,6 +11,7 @@ public class Jumpable : MonoBehaviour {
     [SerializeField] public static float jumpAmount = 20.0f;
 
     private KeyCode jumpKey;
+    private KeyCode attackKey;
     private Collider2D collidedObject;
     private Animator animator;
 
@@ -18,6 +19,7 @@ public class Jumpable : MonoBehaviour {
         Player p = GetComponent<Player>();
         if (p != null) {
             jumpKey = JumpKeyFromPlayerId(p.playerId);
+            attackKey = AttackKeyFromPlayerId(p.playerId);
         }
 
         animator = GetComponent<Animator>();
@@ -25,6 +27,13 @@ public class Jumpable : MonoBehaviour {
 
     private void Update() {
         if (collidedObject == null) {
+            if (Input.GetKeyDown(attackKey)) {
+                Vector3 direction = new Vector3(-1 + UnityEngine.Random.value * 2, -1 + UnityEngine.Random.value * 2, 0.0f);
+                //forceTarget.velocity = Vector2.zero; // Cancel out walking force just in case, not sure it does anything
+                forceTarget.AddForce(direction * jumpAmount * 0.25f, ForceMode2D.Impulse);
+
+                animator.SetTrigger("hurt");
+            }
             return;
         }
 

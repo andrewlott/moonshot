@@ -6,7 +6,7 @@ using Unity.Mathematics;
 using Mirror;
 using UnityEngine.SceneManagement;
 
-public class GameManager : NetworkBehaviour {
+public class GameManager : MonoBehaviour {
     [Header("Prefabs")]
     [SerializeField] private GameObject planetPrefab;
     [SerializeField] private GameObject playerPrefab;
@@ -20,27 +20,38 @@ public class GameManager : NetworkBehaviour {
     [SerializeField] private int numTokensPerPlanet = 4;
     [SerializeField] public int minPlayersToStart = 2;
     [SerializeField] public int maxLocalPlayers = 3;
-    [SerializeField] public int gameDurationSeconds = 120;
+    [SerializeField] public int gameDurationSeconds = 12; //0;
 
     [Header("State")]
-    public SyncList<GameObject> planets = new SyncList<GameObject>();
-    public SyncList<GameObject> players = new SyncList<GameObject>();
-    public SyncList<GameObject> tokens = new SyncList<GameObject>();
+    public List<GameObject> planets = new List<GameObject>();
+    public List<GameObject> players = new List<GameObject>();
+    public List<GameObject> tokens = new List<GameObject>();
 
-    private bool gameStarted;
+    public bool gameStarted;
+    public float startTime;
 
     public static GameManager instance;
 
     private void Awake() {
-        instance = this;
-        //planets = GenerateRandomPlanets(numPlanets);
-        //players = GeneratePlayers(numPlayers);
+        if (instance == null) {
+            instance = this;
+        }
     }
 
-    public SyncList<GameObject> GeneratePlayers() {
+
+    private void FixedUpdate() {
+        if (gameStarted) {
+            float elapsedTime = Time.time - startTime;
+            if (elapsedTime > gameDurationSeconds) {
+                EndGame();
+            }
+        }
+    }
+
+    public List<GameObject> GeneratePlayers() {
         planets.Shuffle(); // not great
         // TODO: If it's the bank of another player, then skip
-        players = new SyncList<GameObject>();
+        players = new List<GameObject>();
         for (int i = 0; i < numPlayers; i++) {
             GameObject player = GeneratePlayer(planets[i % numPlanets]);
             player.GetComponent<Player>().playerId = i + 1;
@@ -74,15 +85,15 @@ public class GameManager : NetworkBehaviour {
         return ClampPositionInScreenBounds(pos);
     }
 
-    public SyncList<GameObject> GenerateRandomPlanets() {
-        planets = new SyncList<GameObject>();
+    public List<GameObject> GenerateRandomPlanets() {
+        planets = new List<GameObject>();
         for (int i = 0; i < numPlanets; i++) {
             planets.Add(GenerateRandomPlanet(planets));
         }
         return planets;
     }
 
-    private GameObject GenerateRandomPlanet(SyncList<GameObject> otherPlanets) {
+    private GameObject GenerateRandomPlanet(List<GameObject> otherPlanets) {
         // make sure planets are formed in bounds
         // make a clone with disabled renderer for each one
         Vector3 basePosition = Camera.main.ViewportToWorldPoint(Vector3.zero);
@@ -122,7 +133,7 @@ public class GameManager : NetworkBehaviour {
         return planet;
     }
 
-    private bool IsValidPlanetPosition(Vector3 position, SyncList<GameObject> otherPlanets) {
+    private bool IsValidPlanetPosition(Vector3 position, List<GameObject> otherPlanets) {
         if (otherPlanets.Count == 0) {
             return true;
         }
@@ -130,8 +141,8 @@ public class GameManager : NetworkBehaviour {
         return IsValidPosition(position, otherPlanets, 2 * planets[0].GetComponent<Planet>().GetGravityDistance() + epsilon);
     }
 
-    public SyncList<GameObject> GenerateTokens() {
-        tokens = new SyncList<GameObject>();
+    public List<GameObject> GenerateTokens() {
+        tokens = new List<GameObject>();
         foreach(GameObject planet in planets) {
             for (int i = 0; i < numTokensPerPlanet; i++) {
                 Vector3 position = RandomPositionFromPoint(
@@ -158,7 +169,7 @@ public class GameManager : NetworkBehaviour {
         return tokens;
     }
 
-    private bool IsValidPosition(Vector3 position, SyncList<GameObject> otherObjects, float minDistance) {
+    private bool IsValidPosition(Vector3 position, List<GameObject> otherObjects, float minDistance) {
         foreach (GameObject g in otherObjects) {
             if (Vector3.Distance(g.transform.position, position) < minDistance) {
                 return false;
@@ -207,9 +218,13 @@ public class GameManager : NetworkBehaviour {
             GameObject player = players[i];
             player.transform.position = RandomPointOnPlanet(planets[i]);
             player.GetComponent<Banker>().SetBank(planets[i].GetComponent<Bank>());
+            player.GetComponent<TokenCollector>().tokens = 0;
+            player.GetComponent<Jumpable>().shouldJump = true;
+            player.GetComponent<Walkable>().isEnabled = true;
+            player.GetComponent<Banker>().isEnabled = true;
         }
-
         gameStarted = true;
+        startTime = Time.time;
     }
 
     public void SetLocalPlayerColor(int playerIndex, int colorIndex) {
@@ -245,16 +260,35 @@ public class GameManager : NetworkBehaviour {
         Walkable.walkAmount = walker.walkAmountMin + (walker.walkAmountMax - walker.walkAmountMin) * walkScale;
     }
 
-    public void GoBackToLobby() {
-        foreach(GameObject g in planets) {
+    public void ClearAllNonPlayers() {
+        foreach (GameObject g in planets) {
             Destroy(g);
         }
+        planets.Clear();
+        foreach (GameObject g in tokens) {
+            Destroy(g);
+        }
+        tokens.Clear();
+    }
+
+    public void ClearAll() {
+        ClearAllNonPlayers();
+        foreach (GameObject g in players) {
+            Destroy(g);
+        }
+        players.Clear();
+    }
+
+    public void Test() {
+        Debug.Log("Testing!");
+    }
+
+    public void EndGame() {
+        gameStarted = false;
         foreach(GameObject g in players) {
-            Destroy(g);
+            g.GetComponent<Jumpable>().shouldJump = false;
+            g.GetComponent<Walkable>().isEnabled = false;
+            g.GetComponent<Banker>().isEnabled = false;
         }
-        foreach(GameObject g in tokens) {
-            Destroy(g);
-        }
-        SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
     }
 }

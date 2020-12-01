@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Banker : MonoBehaviour {
-    [SerializeField] private bool isEnabled;
-    private Bank bank;
+    [SerializeField] public bool isEnabled;
+    public Bank bank;
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnCollisionStay2D(Collision2D collision) {
+        if (!isEnabled) {
+            return;
+        }
+
         Bank collisionBank = collision.collider.GetComponent<Bank>();
         if (collisionBank == null || !collisionBank.isEnabled) {
             return;
@@ -27,9 +31,12 @@ public class Banker : MonoBehaviour {
             return;
         }
 
-        bank.tokens += tc.tokens;
-        Debug.Log(string.Format("Deposited: {0} (Total: {1})", tc.tokens, bank.tokens));
-        tc.tokens = 0;
+        if (tc.tokens == bank.tokens) {
+            return;
+        }
+
+        Debug.Log(string.Format("Deposited: {0} (Total: {1})", tc.tokens - bank.tokens, tc.tokens));
+        bank.tokens = tc.tokens;
     }
 
     public void SetBank(Bank _bank) {
