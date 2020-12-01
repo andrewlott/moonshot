@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 7042224201688387594}
   - component: {fileID: -3161270409699476891}
   - component: {fileID: -3524571649161736733}
+  - component: {fileID: 8502436734487172369}
   m_Layer: 11
   m_Name: Planet
   m_TagString: Planet
@@ -296,3 +297,18 @@ MonoBehaviour:
   isEnabled: 1
   tokens: 0
   banker: {fileID: 0}
+--- !u!114 &8502436734487172369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4191698876244338907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1020a74962faada4b807ac5dc053a4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  currentMatchDebug: 

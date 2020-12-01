@@ -5,22 +5,40 @@ using Unity.Collections;
 using Unity.Mathematics;
 
 public class GameManager : MonoBehaviour {
+    [Header("Prefabs")]
     [SerializeField] private GameObject planetPrefab;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject tokenPrefab;
+
+    [Header("Game Objects")]
+    [SerializeField] private Animator anyKeyAnimator;
+    [Header("Game Variables")]
     [SerializeField] private int numPlanets = 3;
     [SerializeField] private int numPlayers = 1;
     [SerializeField] private float minDistanceBetweenPlanets = 5.0f;
     [SerializeField] private float minTokenDistance = 5.0f;
     [SerializeField] private int numTokensPerPlanet = 4;
+    [SerializeField] private int minPlayersToStart = 2;
 
+    [Header("State")]
     public List<GameObject> planets = new List<GameObject>();
     public List<GameObject> players = new List<GameObject>();
     public List<GameObject> tokens = new List<GameObject>();
 
+    private bool gameStarted;
+
+    public static GameManager instance;
+
     private void Start() {
+        instance = this;
         //planets = GenerateRandomPlanets(numPlanets);
         //players = GeneratePlayers(numPlayers);
+    }
+
+    private void Update() {
+        if (Input.anyKeyDown && anyKeyAnimator != null) {
+            anyKeyAnimator.SetTrigger("anyKey");
+        }
     }
 
     public List<GameObject> GeneratePlayers() {
@@ -36,7 +54,7 @@ public class GameManager : MonoBehaviour {
 
     public GameObject GeneratePlayer(GameObject nearPlanet) {
         Vector3 pos = RandomPointOnPlanet(nearPlanet);
-        GameObject player = Instantiate(playerPrefab, pos, Quaternion.identity);
+        GameObject player = Instantiate(playerPrefab, pos, Quaternion.identity, gameObject.transform);
         // Add to players
         players.Add(player);
         return player;
@@ -93,7 +111,8 @@ public class GameManager : MonoBehaviour {
             Debug.Log("Unable to generate non-colliding planet");
         }
 
-        GameObject planet = Instantiate(planetPrefab, randomPosition, Quaternion.identity);
+        GameObject planet = Instantiate(planetPrefab, randomPosition, Quaternion.identity, gameObject.transform);
+
         //planet.transform.localScale = Vector3.one * (0.5f + UnityEngine.Random.value * 1.0f);
         return planet;
     }
@@ -144,7 +163,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public GameObject GenerateToken(Vector3 position) {
-        GameObject token = Instantiate(tokenPrefab, position, Quaternion.identity);
+        GameObject token = Instantiate(tokenPrefab, position, Quaternion.identity, gameObject.transform);
         return token;
     }
 
@@ -168,5 +187,22 @@ public class GameManager : MonoBehaviour {
 
         Debug.Log("Failed to clamp position");
         return mainPosition;
+    }
+
+    public bool CanStartGame() {
+        return !gameStarted && players.Count >= minPlayersToStart;
+    }
+
+    public void StartNewGame() {
+        GenerateRandomPlanets();
+        GenerateTokens();
+
+        planets.Shuffle();
+        for (int i = 0; i < players.Count; i++) {
+            GameObject player = players[i];
+            player.transform.position = RandomPointOnPlanet(planets[i]);
+        }
+
+        gameStarted = true;
     }
 }

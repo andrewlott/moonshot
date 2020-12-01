@@ -7,7 +7,12 @@ public class NetworkedPlayer : NetworkBehaviour {
     public override void OnStartServer() {
         base.OnStartServer();
 
-        GameManager gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+        if (gameManagerObject == null) {
+            return;
+        }
+
+        GameManager gm = gameManagerObject.GetComponent<GameManager>();
         if (!gm.players.Contains(gameObject)) {
             gm.players.Add(gameObject);
         }
@@ -21,6 +26,9 @@ public class NetworkedPlayer : NetworkBehaviour {
             Jumpable j = GetComponent<Jumpable>();
             j.shouldJump = false;
             j.shouldPush = false;
+
+            Walkable w = GetComponent<Walkable>();
+            w.isEnabled = false;
         }
     }
 }

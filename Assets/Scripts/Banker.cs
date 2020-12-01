@@ -8,7 +8,7 @@ public class Banker : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision) {
         Bank collisionBank = collision.collider.GetComponent<Bank>();
-        if (collisionBank == null) {
+        if (collisionBank == null || !collisionBank.isEnabled) {
             return;
         }
 

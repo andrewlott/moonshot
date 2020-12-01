@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Reflection;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 public static class Utils {
 
@@ -92,5 +94,13 @@ public static class Utils {
 
     public static T AddComponent<T>(this GameObject go, T toAdd) where T : Component {
         return go.AddComponent(toAdd.GetType()).GetCopyOf(toAdd) as T;
+    }
+
+    public static Guid ToGuid(this string id) {
+        MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider();
+        byte[] inputBytes = Encoding.Default.GetBytes(id);
+        byte[] hashBytes = provider.ComputeHash(inputBytes);
+
+        return new Guid(hashBytes);
     }
 }

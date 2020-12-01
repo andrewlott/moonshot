@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 985345674304389670}
   - component: {fileID: -4553985235659186272}
   - component: {fileID: 1355776660090055576}
+  - component: {fileID: -8641672246443921195}
   m_Layer: 10
   m_Name: token
   m_TagString: Untagged
@@ -239,7 +240,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b267768bd538498486a3d2316033e14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   color: {r: 1, g: 1, b: 1, a: 1}
+  colorChoices:
+  - {r: 1, g: 1, b: 1, a: 1}
   spriteRenderers:
   - {fileID: 4695699469473616746}
 --- !u!114 &7865283126280490028
@@ -307,3 +312,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-8641672246443921195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9007483159279119889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1020a74962faada4b807ac5dc053a4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  currentMatchDebug: 

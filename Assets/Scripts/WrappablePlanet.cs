@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class WrappablePlanet : MonoBehaviour {
+public class WrappablePlanet : NetworkBehaviour {
     [SerializeField]
-    private bool isEnabled;
+    [SyncVar]
+    public bool isEnabled;
     private Camera mainCamera;
     // How far out of bounds before teleporting
     private static float threshold = 0.0f;

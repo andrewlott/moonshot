@@ -7,10 +7,15 @@ public class NetworkedPlanet : NetworkBehaviour {
     public override void OnStartServer() {
         base.OnStartServer();
 
-        //Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        //rb.simulated = true;
-        //foreach (GameObject wp in GetComponent<WrappablePlanet>().wrappedPlanets) {
-        //    wp.GetComponent<Rigidbody2D>().simulated = true;
-        //}
+        GameObject gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+        if (gameManagerObject == null) {
+            return;
+        }
+
+        GameManager gm = gameManagerObject.GetComponent<GameManager>();
+        if (!gm.planets.Contains(gameObject)) {
+            gm.planets.Add(gameObject);
+        }
     }
+
 }
