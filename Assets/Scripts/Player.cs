@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
     [SerializeField] public int playerId = 1;
     private Rigidbody2D rb;
-    public float speed = 10.0f;
+    private float speed = 15.0f;
     private bool collided = false;
     private Animator animator;
     void Start() {
@@ -23,8 +23,14 @@ public class Player : MonoBehaviour {
 
         Vector3 vectorToTarget = nearestPlanet.transform.position - transform.position;
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        float planetRadius = nearestPlanet.GetComponent<CircleCollider2D>().radius * nearestPlanet.transform.localScale.x;
+        float dist =  Mathf.Abs(Vector3.Distance(nearestPlanet.transform.position, transform.position)) - planetRadius;
+        if (dist > 2 * planetRadius) {
+            return;
+        }
+        float distProportion = Mathf.Max(1, Mathf.Min(0, planetRadius / dist));
         Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * speed);
+        transform.rotation = Quaternion.Slerp(Quaternion.identity, q, distProportion);
         rb.SetRotation(Quaternion.Slerp(transform.rotation, q, Time.deltaTime * speed));
     }
 

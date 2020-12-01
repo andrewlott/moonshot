@@ -185,6 +185,10 @@ public class UILobby : MonoBehaviour {
         GameManager.instance.SetWalkScale(walkScale);
     }
 
+    public void  SetLocalPlayerColor(int colorIndex) {
+        GameManager.instance.SetLocalPlayerColor(LobbyPlayer.localPlayer.playerIndex, colorIndex);
+    }
+
     public void BackButtonPressed() {
         // TODO
     }

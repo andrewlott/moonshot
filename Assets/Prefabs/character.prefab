@@ -2971,7 +2971,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 1
-  speed: 5
 --- !u!114 &8883709279977344164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3000,7 +2999,8 @@ MonoBehaviour:
   forceTarget: {fileID: 8883709279977344160}
   shouldJump: 1
   shouldPush: 0
-  jumpAmount: 18
+  jumpAmountMin: 20
+  jumpAmountMax: 50
 --- !u!114 &5409802557199787079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3062,7 +3062,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnabled: 1
-  walkAmount: 10
+  walkAmountMin: 10
+  walkAmountMax: 50
 --- !u!114 &888039845536438449
 MonoBehaviour:
   m_ObjectHideFlags: 0

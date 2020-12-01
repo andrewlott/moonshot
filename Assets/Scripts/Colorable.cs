@@ -5,7 +5,7 @@ using Mirror;
 
 public class Colorable : NetworkBehaviour {
     [SerializeField] public Color color = Color.white;
-    [SerializeField] private List<Color> colorChoices = new List<Color> { Color.white };
+    [SerializeField] public List<Color> colorChoices = new List<Color> { Color.white };
     private Color prevColor = Color.white;
     [SerializeField] private List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
 

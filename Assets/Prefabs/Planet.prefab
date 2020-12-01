@@ -147,7 +147,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 16
+  m_Radius: 24
 --- !u!250 &4191698876244338886
 PointEffector2D:
   m_ObjectHideFlags: 0
@@ -160,9 +160,9 @@ PointEffector2D:
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_ForceMagnitude: -100
+  m_ForceMagnitude: -200
   m_ForceVariation: 0
-  m_DistanceScale: 1
+  m_DistanceScale: 0.8
   m_ForceSource: 0
   m_ForceTarget: 0
   m_ForceMode: 2
@@ -333,3 +333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c1a14c13adfa4f408c01b825c1da3fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gravityPointEffector: {fileID: 0}
+  minGravity: -10
+  maxGravity: -1000

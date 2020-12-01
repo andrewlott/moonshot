@@ -54,13 +54,13 @@ MonoBehaviour:
     type: 3}
   tokenPrefab: {fileID: 9007483159279119889, guid: 07bcd30be7ef77245bf513bb85a0655a,
     type: 3}
-  anyKeyAnimator: {fileID: 0}
   numPlanets: 3
   numPlayers: 1
-  minDistanceBetweenPlanets: 5
+  minDistanceBetweenPlanets: 4
   minTokenDistance: 5
   numTokensPerPlanet: 2
   minPlayersToStart: 1
+  maxLocalPlayers: 3
 --- !u!114 &5484308838716918082
 MonoBehaviour:
   m_ObjectHideFlags: 0

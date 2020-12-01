@@ -56,7 +56,8 @@ public class GameManager : NetworkBehaviour {
 
     public Vector3 RandomPointOnPlanet(GameObject planet) {
         CircleCollider2D cc = planet.GetComponent<CircleCollider2D>();
-        Vector3 pos = RandomPositionFromPoint(planet.transform.position, cc.radius, cc.radius);
+        float dist = cc.radius * planet.transform.localScale.x;
+        Vector3 pos = RandomPositionFromPoint(planet.transform.position, dist, dist);
         return pos;
     }
 
@@ -91,7 +92,7 @@ public class GameManager : NetworkBehaviour {
             0.0f
         );
         int attempts = 0;
-        int maxAttempts = 100;
+        int maxAttempts = 1000;
         while (!IsValidPlanetPosition(randomPosition, otherPlanets) && attempts < maxAttempts) {
             randomPosition = new Vector3(
                 basePosition.x + UnityEngine.Random.value * viewSize.x,
@@ -113,27 +114,27 @@ public class GameManager : NetworkBehaviour {
 
     private bool IsValidPlanetPosition(Vector3 position, SyncList<GameObject> otherPlanets) {
         float epsilon = 0.5f;
-        return IsValidPosition(position, otherPlanets, minDistanceBetweenPlanets - epsilon);
+        return IsValidPosition(position, otherPlanets, minDistanceBetweenPlanets + epsilon);
     }
 
     public SyncList<GameObject> GenerateTokens() {
         tokens = new SyncList<GameObject>();
         foreach(GameObject planet in planets) {
             CircleCollider2D cc = planet.GetComponent<CircleCollider2D>();
-
+            float dist = cc.radius * planet.transform.localScale.x;
             for (int i = 0; i < numTokensPerPlanet; i++) {
                 Vector3 position = RandomPositionFromPoint(
                     planet.transform.position,
-                    cc.radius,
-                    minDistanceBetweenPlanets + cc.radius
+                    dist,
+                    minDistanceBetweenPlanets
                 );
                 int attempts = 0;
-                int maxAttempts = 100;
+                int maxAttempts = 1000;
                 while (!IsValidPosition(position, tokens, 0.0f) && attempts < maxAttempts) {
                     position = RandomPositionFromPoint(
                         planet.transform.position,
-                        cc.radius,
-                        minDistanceBetweenPlanets + cc.radius
+                        dist,
+                        minDistanceBetweenPlanets
                     );
                     attempts++;
                 }
@@ -149,7 +150,8 @@ public class GameManager : NetworkBehaviour {
     private bool IsValidPosition(Vector3 position, SyncList<GameObject> otherObjects, float minDistance) {
         foreach (GameObject g in otherObjects) {
             CircleCollider2D cc = g.GetComponent<CircleCollider2D>();
-            if (Vector3.Distance(g.transform.position, position) - 2 * cc.radius < minDistance) {
+            float dist = Vector3.Distance(g.transform.position, position) - 2 * cc.radius * cc.gameObject.transform.localScale.x;
+            if (dist < minDistance) {
                 return false;
             }
         }
@@ -200,13 +202,9 @@ public class GameManager : NetworkBehaviour {
         gameStarted = true;
     }
 
-    public void SetLocalPlayerColor(Color targetColor) {
-        //Color targetColor = UnityEngine.Random.ColorHSV();
-        foreach(GameObject playerGameObject in players) {
-            if (playerGameObject.GetComponent<NetworkBehaviour>().isLocalPlayer) {
-                playerGameObject.GetComponent<Colorable>().color = targetColor;
-            }
-        }
+    public void SetLocalPlayerColor(int playerIndex, int colorIndex) {
+        Colorable c = players[playerIndex].GetComponent<Colorable>();
+        c.color = c.colorChoices[colorIndex];
     }
 
     public Player GetPlayerForPlayerId(int id) {
