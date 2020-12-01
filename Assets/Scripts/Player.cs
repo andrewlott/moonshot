@@ -7,9 +7,10 @@ public class Player : MonoBehaviour {
     private Rigidbody2D rb;
     public float speed = 10.0f;
     private bool collided = false;
-
+    private Animator animator;
     void Start() {
         rb = this.GetComponent<Rigidbody2D>();
+        animator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -24,12 +25,15 @@ public class Player : MonoBehaviour {
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
         Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * speed);
-        //rb.SetRotation(Quaternion.Slerp(transform.rotation, q, Time.deltaTime * speed));
+        rb.SetRotation(Quaternion.Slerp(transform.rotation, q, Time.deltaTime * speed));
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.collider.tag == "Planet") {
+            animator.SetTrigger("land");
             collided = true;
+        } else if (collision.collider.tag == "Player") {
+            animator.SetTrigger("hurt");
         }
         //rb.isKinematic = true;
     }

@@ -10,7 +10,7 @@ public class Walkable : MonoBehaviour {
     private KeyCode rightKey;
     private Collider2D collidedObject;
     private Rigidbody2D forceBody;
-    
+    private Animator animator;
 
     private void Start() {
         Player p = GetComponent<Player>();
@@ -19,14 +19,26 @@ public class Walkable : MonoBehaviour {
             rightKey = RightKeyFromPlayerId(p.playerId);
         }
         forceBody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update() {
+        if (Input.GetKeyUp(leftKey) || Input.GetKeyUp(rightKey)) {
+            animator.SetBool("walking", false);
+        }
+
         if (collidedObject == null || !isEnabled) {
             return;
         }
 
         Vector3 normalDirection = (collidedObject.transform.position - transform.position).normalized;
+
+        if (Input.GetKeyDown(leftKey) || Input.GetKeyDown(rightKey)) {
+            animator.SetBool("walking", true);
+            int flipped = Input.GetKeyDown(rightKey) ? -1 : 1;
+            gameObject.transform.localScale = new Vector3(1, flipped, 1);
+        }
+
         if (Input.GetKey(leftKey)) {
             Vector3 leftDirection = new Vector3(normalDirection.y, -normalDirection.x, 0);
             forceBody.AddForce(leftDirection * walkAmount, ForceMode2D.Force); // Automatically applies once per second?

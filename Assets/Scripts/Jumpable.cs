@@ -9,12 +9,15 @@ public class Jumpable : MonoBehaviour {
     [SerializeField] public float jumpAmount = 18.0f;
     private KeyCode jumpKey;
     private Collider2D collidedObject;
+    private Animator animator;
 
     private void Start() {
         Player p = GetComponent<Player>();
         if (p != null) {
             jumpKey = JumpKeyFromPlayerId(p.playerId);
         }
+
+        animator = GetComponent<Animator>();
     }
 
     private void Update() {
@@ -27,6 +30,8 @@ public class Jumpable : MonoBehaviour {
                 Vector3 direction = (transform.position - collidedObject.transform.position).normalized;
                 forceTarget.velocity = Vector2.zero; // Cancel out walking force just in case, not sure it does anything
                 forceTarget.AddForce(direction * jumpAmount, ForceMode2D.Impulse);
+
+                animator.SetTrigger("jump");
             }
 
             if (shouldPush) {
