@@ -208,4 +208,14 @@ public class GameManager : NetworkBehaviour {
             }
         }
     }
+
+    public Player GetPlayerForPlayerId(int id) {
+        foreach (GameObject g in GameManager.instance.players) {
+            Player player = g.GetComponent<Player>();
+            if (player.playerId == id) {
+                return player;
+            }
+        }
+        return null;
+    }
 }

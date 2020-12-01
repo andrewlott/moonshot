@@ -18,32 +18,45 @@ public class AutoJoinClient : MonoBehaviour {
         }
     }
 
-    public void CreateLocal() {
+    public void CreateLocal(float delaySeconds = 0.0f) {
         Debug.Log("Localing");
         PlayerPrefs.SetInt("isLocal", 1);
-        SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+        StartCoroutine(LoadSceneAfterSeconds(delaySeconds));
     }
 
-    public void JoinServer() {
-        CreateLocal();
-        return;
+    public void JoinServer(float delaySeconds = 0.0f) {
         Debug.Log("Joining");
         PlayerPrefs.SetInt("isLocal", 0);
         networkManager.networkAddress = serverAddress;
-        networkManager.StartClient();
+        StartCoroutine(StartClientAfterSeconds(delaySeconds));
     }
 
-    public void HostLocal() {
+    public void HostLocal(float delaySeconds = 0.0f) {
         Debug.Log("Hosting");
         PlayerPrefs.SetInt("isLocal", 0);
         networkManager.networkAddress = localAddress;
-        networkManager.StartHost();
+        StartCoroutine(StartHostAfterSeconds(delaySeconds));
     }
 
-    public void JoinLocal() {
+    public void JoinLocal(float delaySeconds = 0.0f) {
         Debug.Log("Joining local");
         PlayerPrefs.SetInt("isLocal", 0);
         networkManager.networkAddress = localAddress;
+        StartCoroutine(StartClientAfterSeconds(delaySeconds));
+    }
+
+    IEnumerator LoadSceneAfterSeconds(float seconds) {
+        yield return new WaitForSeconds(seconds);
+        SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+    }
+
+    IEnumerator StartClientAfterSeconds(float seconds) {
+        yield return new WaitForSeconds(seconds);
         networkManager.StartClient();
+    }
+
+    IEnumerator StartHostAfterSeconds(float seconds) {
+        yield return new WaitForSeconds(seconds);
+        networkManager.StartHost();
     }
 }

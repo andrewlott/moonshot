@@ -48,22 +48,17 @@ public class UILobby : MonoBehaviour {
 
         if (isLocal) {
             for (int i = 1; i < GameManager.instance.maxLocalPlayers; i++) {
-                if (!Input.GetKeyDown(Jumpable.JumpKeyFromPlayerId(i))) {
-                    continue;
-                }
+                Player existingPlayer = GameManager.instance.GetPlayerForPlayerId(i);
 
-                bool playerExists = false;
-                foreach(GameObject g in GameManager.instance.players) {
-                    Player player = g.GetComponent<Player>();
-                    if (player.playerId == i) {
-                        playerExists = true;
-                    }
-                }
-
-                if (!playerExists) {
+                if (Input.GetKeyDown(Jumpable.JumpKeyFromPlayerId(i)) && existingPlayer == null) {
+                    // Jump creates player
                     GameObject newRoomPlayer = Instantiate(roomPlayerPrefab, GameManager.instance.transform);
                     GameManager.instance.players.Add(newRoomPlayer);
                     newRoomPlayer.GetComponent<Player>().playerId = i;
+                } else if (Input.GetKeyDown(Jumpable.AttackKeyFromPlayerId(i)) && existingPlayer != null && GameManager.instance.players.Count > 1) {
+                    // Attack removes player
+                    GameManager.instance.players.Remove(existingPlayer.gameObject);
+                    Destroy(existingPlayer.gameObject);
                 }
             }
         }

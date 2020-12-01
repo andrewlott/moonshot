@@ -63,4 +63,20 @@ public class Jumpable : MonoBehaviour {
         }
         return key;
     }
+
+    public static KeyCode AttackKeyFromPlayerId(int playerId) {
+        KeyCode key = KeyCode.DownArrow;
+        switch (playerId) {
+            case 1:
+                key = KeyCode.DownArrow;
+                break;
+            case 2:
+                key = KeyCode.S;
+                break;
+            case 3:
+                key = KeyCode.C;
+                break;
+        }
+        return key;
+    }
 }
