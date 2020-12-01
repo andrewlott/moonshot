@@ -17,14 +17,7 @@ public class Banker : MonoBehaviour {
         }
 
         if (bank == null) {
-            bank = collisionBank;
-            bank.banker = this;
-
-            Colorable c1 = GetComponent<Colorable>();
-            Colorable c2 = bank.GetComponent<Colorable>();
-            if (c1 != null && c2 != null) {
-                c2.color = c1.color;
-            }
+            SetBank(collisionBank);
         } else if (bank != collisionBank) { // maybe need a better comparison method here
             return;
         }
@@ -37,5 +30,16 @@ public class Banker : MonoBehaviour {
         bank.tokens += tc.tokens;
         Debug.Log(string.Format("Deposited: {0} (Total: {1})", tc.tokens, bank.tokens));
         tc.tokens = 0;
+    }
+
+    public void SetBank(Bank _bank) {
+        bank = _bank;
+        bank.banker = this;
+
+        Colorable c1 = GetComponent<Colorable>();
+        Colorable c2 = bank.GetComponent<Colorable>();
+        if (c1 != null && c2 != null) {
+            c2.color = c1.color;
+        }
     }
 }

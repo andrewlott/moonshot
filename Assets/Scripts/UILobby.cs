@@ -49,12 +49,13 @@ public class UILobby : MonoBehaviour {
         }
 
         if (isLocal) {
-            for (int i = 1; i < GameManager.instance.maxLocalPlayers; i++) {
+            for (int i = 1; i < GameManager.instance.maxLocalPlayers + 1; i++) {
                 Player existingPlayer = GameManager.instance.GetPlayerForPlayerId(i);
 
                 if (Input.GetKeyDown(Jumpable.JumpKeyFromPlayerId(i)) && existingPlayer == null) {
                     // Jump creates player
                     GameObject newRoomPlayer = Instantiate(roomPlayerPrefab, GameManager.instance.transform);
+                    newRoomPlayer.transform.position = GameManager.instance.RandomPointOnPlanet(GameManager.instance.planets[0]);
                     GameManager.instance.players.Add(newRoomPlayer);
                     newRoomPlayer.GetComponent<Player>().playerId = i;
                 } else if (Input.GetKeyDown(Jumpable.AttackKeyFromPlayerId(i)) && existingPlayer != null && GameManager.instance.players.Count > 1) {
