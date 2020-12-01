@@ -153,12 +153,14 @@ public class UILobby : MonoBehaviour {
     }
 
     private void CreateLocalLobby() {
+        Debug.Log("Creating local lobby");
         GameObject planet = Instantiate(planetPrefab, GameManager.instance.transform);
         GameManager.instance.planets.Add(planet);
         //planet.GetComponent<WrappablePlanet>().isEnabled = false;
         //planet.GetComponent<Bank>().isEnabled = false;
 
         GameObject newRoomPlayer = Instantiate(roomPlayerPrefab, GameManager.instance.transform);
+        newRoomPlayer.transform.position = GameManager.instance.RandomPointOnPlanet(planet);
         GameManager.instance.players.Add(newRoomPlayer);
     }
 
@@ -188,6 +190,6 @@ public class UILobby : MonoBehaviour {
     }
 
     public void BackButtonPressed() {
-        // TODO
+        SceneManager.LoadScene("OfflineScene");
     }
 }
