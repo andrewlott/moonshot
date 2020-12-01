@@ -3159,6 +3159,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: backButton2
       objectReference: {fileID: 0}
+    - target: {fileID: 6351041615170537487, guid: 4961e2eb76e128e409a3ee26ec552049,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6351041615362236444, guid: 4961e2eb76e128e409a3ee26ec552049,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
@@ -3169,10 +3174,29 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6351041616053180175, guid: 4961e2eb76e128e409a3ee26ec552049,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6351041616053180175, guid: 4961e2eb76e128e409a3ee26ec552049,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 6351041616053180272, guid: 4961e2eb76e128e409a3ee26ec552049,
         type: 3}
       propertyPath: m_Text
-      value: PRESS JUMP TO JOIN
+      value: 'PRESS JUMP TO JOIN!
+
+
+        COLLECT STARS AND DEPOSIT ON YOUR PLANET
+        TO WIN!'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6351041616053180272, guid: 4961e2eb76e128e409a3ee26ec552049,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6351041616105155052, guid: 4961e2eb76e128e409a3ee26ec552049,
         type: 3}
@@ -3218,6 +3242,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
       value: wipeOn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582702719584655880, guid: 4961e2eb76e128e409a3ee26ec552049,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582702719584655880, guid: 4961e2eb76e128e409a3ee26ec552049,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -0.0000063180923
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582702719584655880, guid: 4961e2eb76e128e409a3ee26ec552049,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -348.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582702719584655880, guid: 4961e2eb76e128e409a3ee26ec552049,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 6582702720067171709, guid: 4961e2eb76e128e409a3ee26ec552049,
         type: 3}
