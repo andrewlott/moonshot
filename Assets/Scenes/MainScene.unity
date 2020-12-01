@@ -178,7 +178,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 3073
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7c77bfb1e87e04d198b0225e2584c670, type: 2}
   m_TargetDisplay: 0
@@ -346,7 +346,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 3073
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7c77bfb1e87e04d198b0225e2584c670, type: 2}
   m_TargetDisplay: 0
@@ -429,7 +429,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 3073
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7c77bfb1e87e04d198b0225e2584c670, type: 2}
   m_TargetDisplay: 0
@@ -586,7 +586,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 3073
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7c77bfb1e87e04d198b0225e2584c670, type: 2}
   m_TargetDisplay: 0
@@ -1267,7 +1267,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 3073
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7c77bfb1e87e04d198b0225e2584c670, type: 2}
   m_TargetDisplay: 0
@@ -1410,6 +1410,7 @@ MonoBehaviour:
   minTokenDistance: 5
   numTokensPerPlanet: 2
   minPlayersToStart: 2
+  maxLocalPlayers: 3
 --- !u!1 &1135199679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,7 +1482,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 3073
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7c77bfb1e87e04d198b0225e2584c670, type: 2}
   m_TargetDisplay: 0
@@ -1564,7 +1565,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 3073
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7c77bfb1e87e04d198b0225e2584c670, type: 2}
   m_TargetDisplay: 0
@@ -1717,7 +1718,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1537
+    m_Bits: 3073
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7c77bfb1e87e04d198b0225e2584c670, type: 2}
   m_TargetDisplay: 0

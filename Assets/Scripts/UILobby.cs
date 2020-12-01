@@ -21,6 +21,7 @@ public class UILobby : MonoBehaviour {
     [SerializeField] public GameObject gameManagerPrefab;
     [SerializeField] private TMP_Text matchIdText;
     [SerializeField] private Button startButton;
+    [SerializeField] private Animator uiAnimator;
 
     private bool isLocal;
 
@@ -32,10 +33,13 @@ public class UILobby : MonoBehaviour {
             lobbyCanvas.enabled = false;
             roomCanvas.enabled = true;
             startButton.gameObject.SetActive(true);
+
+            uiAnimator.SetTrigger("isLocal");
             CreateLocalLobby();
         } else {
             lobbyCanvas.enabled = true;
             roomCanvas.enabled = false;
+            uiAnimator.SetTrigger("isOnline");
         }
     }
 
@@ -142,6 +146,16 @@ public class UILobby : MonoBehaviour {
         lobbyPlayer.SpawnPlayer(matchId);
     }
 
+
+    public void StartGameWithDelay(float startDelay) {
+        StartCoroutine(StartGameAfterSeconds(startDelay));
+    }
+
+    IEnumerator StartGameAfterSeconds(float seconds) {
+        yield return new WaitForSeconds(seconds);
+        StartGame();
+    }
+
     public void StartGame() {
         lobbyCanvas.enabled = false;
         roomCanvas.enabled = false;
@@ -157,7 +171,7 @@ public class UILobby : MonoBehaviour {
         GameObject planet = Instantiate(planetPrefab, GameManager.instance.transform);
         GameManager.instance.planets.Add(planet);
         //planet.GetComponent<WrappablePlanet>().isEnabled = false;
-        //planet.GetComponent<Bank>().isEnabled = false;
+        planet.GetComponent<Bank>().isEnabled = false;
 
         GameObject newRoomPlayer = Instantiate(roomPlayerPrefab, GameManager.instance.transform);
         newRoomPlayer.transform.position = GameManager.instance.RandomPointOnPlanet(planet);
