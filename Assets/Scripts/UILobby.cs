@@ -19,7 +19,6 @@ public class UILobby : MonoBehaviour {
     [SerializeField] public GameObject planetPrefab;
     [SerializeField] public GameObject roomPlayerPrefab;
     [SerializeField] public GameObject gameManagerPrefab;
-    [SerializeField] private GameObject matchIdView;
     [SerializeField] private TMP_Text matchIdText;
     [SerializeField] private Button startButton;
 
@@ -32,7 +31,6 @@ public class UILobby : MonoBehaviour {
         if (isLocal) {
             lobbyCanvas.enabled = false;
             roomCanvas.enabled = true;
-            matchIdView.SetActive(false);
             startButton.gameObject.SetActive(true);
             CreateLocalLobby();
         } else {
@@ -157,8 +155,8 @@ public class UILobby : MonoBehaviour {
     private void CreateLocalLobby() {
         GameObject planet = Instantiate(planetPrefab, GameManager.instance.transform);
         GameManager.instance.planets.Add(planet);
-        planet.GetComponent<WrappablePlanet>().isEnabled = false;
-        planet.GetComponent<Bank>().isEnabled = false;
+        //planet.GetComponent<WrappablePlanet>().isEnabled = false;
+        //planet.GetComponent<Bank>().isEnabled = false;
 
         GameObject newRoomPlayer = Instantiate(roomPlayerPrefab, GameManager.instance.transform);
         GameManager.instance.players.Add(newRoomPlayer);
