@@ -218,4 +218,22 @@ public class GameManager : NetworkBehaviour {
         }
         return null;
     }
+
+    public void SetGravityScale(float gravityScale) {
+        foreach(GameObject g in planets) {
+            Planet p = g.GetComponent<Planet>();
+            float amount = p.minGravity + (p.maxGravity - p.minGravity) * gravityScale;
+            p.SetGravity(amount);
+        }
+    }
+
+    public void SetJumpScale(float jumpScale) {
+        Jumpable jumper = players[0].GetComponent<Jumpable>();
+        Jumpable.jumpAmount = jumper.jumpAmountMin + (jumper.jumpAmountMax - jumper.jumpAmountMin) * jumpScale;
+    }
+
+    public void SetWalkScale(float walkScale) {
+        Walkable walker = players[0].GetComponent<Walkable>();
+        Walkable.walkAmount = walker.walkAmountMin + (walker.walkAmountMax - walker.walkAmountMin) * walkScale;
+    }
 }

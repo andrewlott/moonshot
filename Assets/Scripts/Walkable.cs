@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Walkable : MonoBehaviour {
     [SerializeField] public bool isEnabled;
-    [SerializeField] public float walkAmount = 25.0f;
+    [SerializeField] public float walkAmountMin = 1.0f;
+    [SerializeField] public float walkAmountMax = 15.0f;
+    [SerializeField] public static float walkAmount = 10.0f;
 
     private KeyCode leftKey;
     private KeyCode rightKey;

@@ -173,6 +173,18 @@ public class UILobby : MonoBehaviour {
         GameManager.instance.StartNewGame();
     }
 
+    public void SetGravityScale(int gravityScale) {
+        GameManager.instance.SetGravityScale(gravityScale);
+    }
+
+    public void SetJumpScale(int jumpScale) {
+        GameManager.instance.SetJumpScale(jumpScale);
+    }
+
+    public void SetWalkScale(int walkScale) {
+        GameManager.instance.SetWalkScale(walkScale);
+    }
+
     public void BackButtonPressed() {
         // TODO
     }

@@ -6,7 +6,10 @@ public class Jumpable : MonoBehaviour {
     [SerializeField] private Rigidbody2D forceTarget;
     [SerializeField] public bool shouldJump;
     [SerializeField] public bool shouldPush;
-    [SerializeField] public float jumpAmount = 18.0f;
+    [SerializeField] public float jumpAmountMin = 5.0f;
+    [SerializeField] public float jumpAmountMax = 20.0f;
+    [SerializeField] public static float jumpAmount = 15.0f;
+
     private KeyCode jumpKey;
     private Collider2D collidedObject;
     private Animator animator;
