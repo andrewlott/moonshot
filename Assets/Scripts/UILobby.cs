@@ -19,18 +19,55 @@ public class UILobby : MonoBehaviour {
     [SerializeField] public GameObject planetPrefab;
     [SerializeField] public GameObject roomPlayerPrefab;
     [SerializeField] public GameObject gameManagerPrefab;
+    [SerializeField] private GameObject matchIdView;
     [SerializeField] private TMP_Text matchIdText;
     [SerializeField] private Button startButton;
+
+    private bool isLocal;
+
     private void Start() {
         instance = this;
-        lobbyCanvas.enabled = true;
-        roomCanvas.enabled = false;
+        isLocal = PlayerPrefs.GetInt("isLocal") == 1;
+
+        if (isLocal) {
+            lobbyCanvas.enabled = false;
+            roomCanvas.enabled = true;
+            matchIdView.SetActive(false);
+            startButton.gameObject.SetActive(true);
+            CreateLocalLobby();
+        } else {
+            lobbyCanvas.enabled = true;
+            roomCanvas.enabled = false;
+        }
     }
 
     private void Update() {
         if (GameManager.instance == null) {
             return;
         }
+
+        if (isLocal) {
+            for (int i = 1; i < GameManager.instance.maxLocalPlayers; i++) {
+                if (!Input.GetKeyDown(Jumpable.JumpKeyFromPlayerId(i))) {
+                    continue;
+                }
+
+                bool playerExists = false;
+                foreach(GameObject g in GameManager.instance.players) {
+                    Player player = g.GetComponent<Player>();
+                    if (player.playerId == i) {
+                        playerExists = true;
+                    }
+                }
+
+                if (!playerExists) {
+                    GameObject newRoomPlayer = Instantiate(roomPlayerPrefab, GameManager.instance.transform);
+                    GameManager.instance.players.Add(newRoomPlayer);
+                    newRoomPlayer.GetComponent<Player>().playerId = i;
+                }
+            }
+        }
+
         bool canStart = GameManager.instance.CanStartGame();
         if (canStart && !startButton.enabled) {
             startButton.enabled = true;
@@ -115,7 +152,30 @@ public class UILobby : MonoBehaviour {
     public void StartGame() {
         lobbyCanvas.enabled = false;
         roomCanvas.enabled = false;
-        LobbyPlayer.localPlayer.StartGame();
+        if (isLocal) {
+            StartLocalGame();
+        } else {
+            LobbyPlayer.localPlayer.StartGame();
+        }
+    }
+
+    private void CreateLocalLobby() {
+        GameObject planet = Instantiate(planetPrefab, GameManager.instance.transform);
+        GameManager.instance.planets.Add(planet);
+        planet.GetComponent<WrappablePlanet>().isEnabled = false;
+        planet.GetComponent<Bank>().isEnabled = false;
+
+        GameObject newRoomPlayer = Instantiate(roomPlayerPrefab, GameManager.instance.transform);
+        GameManager.instance.players.Add(newRoomPlayer);
+    }
+
+    private void StartLocalGame() {
+        foreach (GameObject planet in GameManager.instance.planets) {
+            NetworkServer.Destroy(planet);
+            Destroy(planet);
+        }
+        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
+        GameManager.instance.StartNewGame();
     }
 
     public void BackButtonPressed() {

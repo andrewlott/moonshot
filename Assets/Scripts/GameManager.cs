@@ -17,7 +17,8 @@ public class GameManager : NetworkBehaviour {
     [SerializeField] private float minDistanceBetweenPlanets = 5.0f;
     [SerializeField] private float minTokenDistance = 5.0f;
     [SerializeField] private int numTokensPerPlanet = 4;
-    [SerializeField] private int minPlayersToStart = 2;
+    [SerializeField] public int minPlayersToStart = 2;
+    [SerializeField] public int maxLocalPlayers = 3;
 
     [Header("State")]
     public SyncList<GameObject> planets = new SyncList<GameObject>();

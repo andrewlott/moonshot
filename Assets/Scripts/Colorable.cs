@@ -9,11 +9,15 @@ public class Colorable : NetworkBehaviour {
     private Color prevColor = Color.white;
     [SerializeField] private List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
 
+    private static List<Color> usedPlayerColors = new List<Color>();
 
     private void Start() {
         if (gameObject.CompareTag("Player")) {
-            color = Random.ColorHSV();
-            //color = colorChoices[Random.Range(0, colorChoices.Count - 1)];
+            Color choice = colorChoices[Random.Range(0, colorChoices.Count - 1)];
+            while (usedPlayerColors.Contains(choice)) {
+                choice = colorChoices[Random.Range(0, colorChoices.Count - 1)];
+            }
+            color = choice;
         }
         SetSpriteColor();
     }

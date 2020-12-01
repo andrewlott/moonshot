@@ -48,19 +48,19 @@ public class Jumpable : MonoBehaviour {
         }
     }
 
-    private KeyCode JumpKeyFromPlayerId(int playerId) {
-        KeyCode key = KeyCode.Space;
-        //switch(playerId) {
-        //    case 1:
-        //        key = KeyCode.Space;
-        //        break;
-        //    case 2:
-        //        key = KeyCode.A;
-        //        break;
-        //    case 3:
-        //        key = KeyCode.KeypadEnter;
-        //        break;
-        //}
+    public static KeyCode JumpKeyFromPlayerId(int playerId) {
+        KeyCode key = KeyCode.UpArrow;
+        switch (playerId) {
+            case 1:
+                key = KeyCode.UpArrow;
+                break;
+            case 2:
+                key = KeyCode.W;
+                break;
+            case 3:
+                key = KeyCode.Space;
+                break;
+        }
         return key;
     }
 }
