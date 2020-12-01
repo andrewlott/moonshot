@@ -36,4 +36,10 @@ public class Colorable : NetworkBehaviour {
         }
         prevColor = color;
     }
+
+    private void OnDestroy() {
+        if (gameObject.CompareTag("Player")) {
+            usedPlayerColors.Remove(color);
+        }
+    }
 }
