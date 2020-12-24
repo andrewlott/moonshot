@@ -1,0 +1,20 @@
+version: 1
+task_definition:
+  ecs_network_mode: awsvpc
+  task_execution_role: arn:aws:iam::270628426551:role/ecsTaskExecutionRole
+  task_role_arn: arn:aws:iam::270628426551:role/ecsTaskExecutionRole
+  task_size:
+    cpu_limit: 256
+    mem_limit: 512
+  services:
+    moonshot-server:
+      essential: true
+run_params:
+  network_configuration:
+    awsvpc_configuration:
+      subnets:
+        - subnet-a361ddc5
+        - subnet-61fa323b
+      security_groups:
+        - sg-00dd9ebc28330e855
+      assign_public_ip: ENABLED

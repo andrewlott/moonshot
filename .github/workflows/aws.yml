@@ -77,9 +77,18 @@ jobs:
     - name: Deploy Amazon ECS via compose
       id: ecs-cli-compose
       env:
+        UNITY_USERNAME: ${{ secrets.UNITY_USERNAME }}
+        UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         IMAGE_NAME: ${{ steps.build-image.outputs.image }}
       run: |
-        ecs-cli compose --file docker-compose.yml service up
+        # Download ecs-cli
+        sudo curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
+        sudo chmod +x /usr/local/bin/ecs-cli
+        ecs-cli --version
+        # Run
+        ecs-cli compose --file docker-compose.yml --ecs-params ecs-params.yml --cluster moonshot-cluster up --launch-type FARGATE --create-log-groups
+        ecs-cli compose ps
 #    - name: Deploy Amazon ECS task definition
 #      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
 #      with:
