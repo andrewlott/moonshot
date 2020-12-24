@@ -1,0 +1,9 @@
+version: "3"
+services:
+  moonshot-server:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: /ecs/moonshot-task-definition
+        awslogs-region: us-west-1
+        awslogs-stream-prefix: ecs

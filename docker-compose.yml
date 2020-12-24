@@ -2,8 +2,7 @@ version: "3"
 services:
   moonshot-server:
     image: "${IMAGE_NAME}"
-    #image: gableroux/unity3d:2019.4.14f1
-    command: "bash -c /project/DockerScripts/build.sh && bash -c /project/DockerScripts/run.sh"
+    command: bash -c /project/DockerScripts/build_and_run.sh
     ports:
       - "7777:7777"
       - "7778:7778"
@@ -14,9 +13,3 @@ services:
       UNITY_USERNAME: $UNITY_USERNAME
       UNITY_PASSWORD: $UNITY_PASSWORD
       UNITY_SERIAL: $UNITY_SERIAL
-    logging:
-      driver: awslogs
-      options:
-        awslogs-group: /ecs/moonshot-task-definition
-        awslogs-region: us-west-1
-        awslogs-stream-prefix: ecs

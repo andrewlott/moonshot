@@ -23,6 +23,7 @@ ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x2
   -serial $UNITY_SERIAL \
   -logFile /dev/stdout
 
+UNITY_EXIT_CODE=$?
 
 if [ $UNITY_EXIT_CODE -eq 0 ]; then
   echo "Run succeeded, no failures occurred";
