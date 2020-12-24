@@ -74,10 +74,16 @@ jobs:
         container-name: moonshot-container
         image: ${{ steps.build-image.outputs.image }}
 
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: moonshot-service
-        cluster: moonshot-cluster
-        wait-for-service-stability: true
+    - name: Deploy Amazon ECS via compose
+      id: ecs-cli-compose
+      env:
+        IMAGE_NAME: ${{ steps.build-image.outputs.image }}
+      run: |
+        ecs-cli compose --file docker-compose.yml service up
+#    - name: Deploy Amazon ECS task definition
+#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#      with:
+#        task-definition: ${{ steps.task-def.outputs.task-definition }}
+#        service: moonshot-service
+#        cluster: moonshot-cluster
+#        wait-for-service-stability: true

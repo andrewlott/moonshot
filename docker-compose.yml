@@ -1,0 +1,22 @@
+version: "3"
+services:
+  moonshot-server:
+    image: "${IMAGE_NAME}"
+    #image: gableroux/unity3d:2019.4.14f1
+    command: bash -c /project/DockerScripts/build.sh && bash -c /project/DockerScripts/run.sh
+    ports:
+      - "7777:7777"
+      - "7778:7778"
+    environment:
+      BUILD_NAME: moonshot-build
+      BUILD_TARGET: StandaloneLinux64
+      UNITY_DIR: /project/
+      UNITY_USERNAME: $UNITY_USERNAME
+      UNITY_PASSWORD: $UNITY_PASSWORD
+      UNITY_SERIAL: $UNITY_SERIAL
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: moonshot
+        awslogs-region: us-west-1
+        awslogs-stream-prefix: moonshot
