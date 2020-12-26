@@ -4,4 +4,3 @@ echo "Running server!"
 ./$BUILD_NAME
 echo "Exited server!"
 popd > /dev/null
-exit

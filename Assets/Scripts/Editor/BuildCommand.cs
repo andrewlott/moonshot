@@ -8,7 +8,7 @@ static class BuildCommand {
     private const string KEY_ALIAS_PASS = "KEY_ALIAS_PASS";
     private const string KEY_ALIAS_NAME = "KEY_ALIAS_NAME";
     private const string KEYSTORE = "keystore.keystore";
-    private const string BUILD_OPTIONS_ENV_VAR = "BuildOptions";
+    private const string BUILD_OPTIONS_ENV_VAR = "BUILD_OPTIONS";
     private const string ANDROID_BUNDLE_VERSION_CODE = "BUNDLE_VERSION_CODE";
     private const string ANDROID_APP_BUNDLE = "BUILD_APP_BUNDLE";
     private const string SCRIPTING_BACKEND_ENV_VAR = "SCRIPTING_BACKEND";

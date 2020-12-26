@@ -58,41 +58,32 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: moonshot-repository
         IMAGE_TAG: ${{ github.sha }}
-      run: |
-        # Build a docker container and
-        # push it to ECR so that it can
-        # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
-    - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: task-definition.json
-        container-name: moonshot-container
-        image: ${{ steps.build-image.outputs.image }}
-
-    - name: Deploy Amazon ECS via compose
-      id: ecs-cli-compose
-      env:
         UNITY_USERNAME: ${{ secrets.UNITY_USERNAME }}
         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+      run: |
+        # Build image
+        docker build \
+        -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+        --build-arg IMAGE_NAME=$IMAGE_NAME \
+        --build-arg UNITY_USERNAME=$UNITY_USERNAME \
+        --build-arg UNITY_PASSWORD=$UNITY_PASSWORD \
+        --build-arg UNITY_SERIAL=$UNITY_SERIAL \
+        .
+        # Push image to ECR
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+    - name: Deploy to Amazon ECS
+      id: ecs-cli-compose
+      env:
         IMAGE_NAME: ${{ steps.build-image.outputs.image }}
       run: |
         # Download ecs-cli
         sudo curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
         sudo chmod +x /usr/local/bin/ecs-cli
         ecs-cli --version
-        # Run
+        # Create and push container
         ecs-cli compose --file docker-compose.yml --file docker-compose-aws.yml --ecs-params ecs-params.yml --cluster moonshot-cluster service up --launch-type FARGATE --create-log-groups
+        # Check status
         ecs-cli compose ps
-#    - name: Deploy Amazon ECS task definition
-#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#      with:
-#        task-definition: ${{ steps.task-def.outputs.task-definition }}
-#        service: moonshot-service
-#        cluster: moonshot-cluster
-#        wait-for-service-stability: true

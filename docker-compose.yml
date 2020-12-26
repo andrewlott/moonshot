@@ -2,14 +2,7 @@ version: "3"
 services:
   moonshot-server:
     image: "${IMAGE_NAME}"
-    command: bash -c /project/DockerScripts/build_and_run.sh
+    command: bash -c /project/DockerScripts/run.sh
     ports:
-      - "7777:7777"
+      - "7777:7777/udp"
       - "7778:7778"
-    environment:
-      BUILD_NAME: moonshot-build
-      BUILD_TARGET: StandaloneLinux64
-      UNITY_DIR: /project/
-      UNITY_USERNAME: $UNITY_USERNAME
-      UNITY_PASSWORD: $UNITY_PASSWORD
-      UNITY_SERIAL: $UNITY_SERIAL
