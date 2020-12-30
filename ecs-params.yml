@@ -23,4 +23,12 @@ run_params:
     container_port: 7777
     #container_port: 7778
     private_dns_namespace:
-        vpc: vpc-cbc60bad
+      name: moonshot-server-namespace
+      vpc: vpc-cbc60bad
+    public_dns_namespace:
+      name: moonshot.andrewlott.com
+    service_discovery_service:
+      name: moonshot-service-discovery-service
+      dns_config:
+        type: A
+        ttl: 10
