@@ -7,7 +7,7 @@ task_definition:
     cpu_limit: 256
     mem_limit: 1024
   services:
-    moonshot-server:
+    test:
       essential: true
 run_params:
   network_configuration:
@@ -18,17 +18,3 @@ run_params:
       security_groups:
         - sg-00dd9ebc28330e855
       assign_public_ip: ENABLED
-  service_discovery:
-    container_name: moonshot-server
-    container_port: 7777
-    #container_port: 7778
-    private_dns_namespace:
-      name: moonshot-server-namespace
-      vpc: vpc-cbc60bad
-    public_dns_namespace:
-      name: moonshot.andrewlott.com
-    service_discovery_service:
-      name: moonshot-service-discovery-service
-      dns_config:
-        type: A
-        ttl: 10
