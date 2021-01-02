@@ -96,6 +96,7 @@ jobs:
         --launch-type FARGATE \
         --target-groups="targetGroupArn=$AWS_UDP_TARGET_GROUP_ARN,containerName=$CONTAINER_NAME,containerPort=7777" \
         --target-groups="targetGroupArn=$AWS_TCP_TARGET_GROUP_ARN,containerName=$CONTAINER_NAME,containerPort=7778" \
+        --health-check-grace-period 60 \
         --create-log-groups
         # Check status
         ecs-cli compose ps
