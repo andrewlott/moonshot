@@ -77,13 +77,25 @@ jobs:
     - name: Deploy to Amazon ECS
       id: ecs-cli-compose
       env:
+        CONTAINER_NAME: moonshot-server
         IMAGE_NAME: ${{ steps.build-image.outputs.image }}
+        AWS_UDP_TARGET_GROUP_ARN: ${{ secrets.AWS_UDP_TARGET_GROUP_ARN }}
+        AWS_TCP_TARGET_GROUP_ARN: ${{ secrets.AWS_TCP_TARGET_GROUP_ARN }}
       run: |
         # Download ecs-cli
         sudo curl -Lo /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
         sudo chmod +x /usr/local/bin/ecs-cli
         ecs-cli --version
         # Create and push container
-        ecs-cli compose --file docker-compose.yml --file docker-compose-aws.yml --ecs-params ecs-params.yml --cluster moonshot-cluster service up --launch-type FARGATE --create-log-groups
+        ecs-cli compose \
+        --file docker-compose.yml \
+        --file docker-compose-aws.yml \
+        --ecs-params ecs-params.yml \
+        --cluster moonshot-cluster \
+        service up \
+        --launch-type FARGATE \
+        --target-groups="targetGroupArn=$AWS_UDP_TARGET_GROUP_ARN,containerName=$CONTAINER_NAME,containerPort=7777" \
+        --target-groups="targetGroupArn=$AWS_TCP_TARGET_GROUP_ARN,containerName=$CONTAINER_NAME,containerPort=7778" \
+        --create-log-groups
         # Check status
         ecs-cli compose ps
